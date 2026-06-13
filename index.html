@@ -572,7 +572,7 @@
         </div>
         <span class="link-arrow">→</span>
       </a>
-      <a class="link-item" href="https://hero.ia.br/HEROIA-FULL-Nuven/heroia_app/" target="_blank" rel="noopener" onclick="return promptHeroAdmin(event, this)">
+      <a class="link-item" href="#" rel="noopener" onclick="return promptHeroAdmin(event, this)">
         <span class="link-emoji">🏷️</span>
         <div class="link-text">
           <div class="link-label">HERO App Admin</div>
@@ -746,7 +746,7 @@
     event.preventDefault();
     const senha = prompt('Digite a senha de acesso ao HERO App Admin');
     if (senha === 'hero134134134') {
-      window.open(link.href, '_blank', 'noopener');
+      alert('Acesso validado. O backend do HERO App Admin será conectado posteriormente.');
     } else if (senha !== null) {
       alert('Senha incorreta.');
     }
