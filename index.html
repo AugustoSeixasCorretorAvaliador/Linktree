@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Augusto Seixas — Links</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0A0A0F;
+    --card: #14141F;
+    --card-hover: #1C1C2E;
+    --border: rgba(255,255,255,0.07);
+    --text: #E8E8F0;
+    --muted: #7070A0;
+    --hero: #00D4FF;
+    --hero-dim: rgba(0, 212, 255, 0.12);
+    --imovel: #FF6B35;
+    --imovel-dim: rgba(255, 107, 53, 0.12);
+    --print: #A8FF3E;
+    --print-dim: rgba(168, 255, 62, 0.12);
+    --social: #C084FC;
+    --social-dim: rgba(192, 132, 252, 0.12);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    padding: 0 0 80px 0;
+  }
+
+  /* ── AMBIENT GLOW ── */
+  body::before {
+    content: '';
+    position: fixed;
+    top: -200px; left: 50%;
+    transform: translateX(-50%);
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(0,212,255,0.06) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .wrap {
+    max-width: 520px;
+    margin: 0 auto;
+    padding: 0 16px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── HEADER ── */
+  .hero {
+    text-align: center;
+    padding: 56px 0 40px;
+  }
+
+  .avatar-ring {
+    display: inline-block;
+    padding: 3px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--hero), var(--imovel), var(--print));
+    margin-bottom: 20px;
+  }
+
+  .avatar-inner {
+    width: 88px; height: 88px;
+    border-radius: 50%;
+    background: var(--card);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 2.2rem;
+    border: 3px solid var(--bg);
+  }
+
+  .hero-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.55rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    margin-bottom: 8px;
+  }
+
+  .hero-tagline {
+    font-size: 0.8rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+
+  .hero-intro {
+    max-width: 430px;
+    margin: 0 auto 18px;
+    padding: 0 6px;
+    font-size: 0.86rem;
+    line-height: 1.55;
+    color: rgba(232,232,240,0.84);
+  }
+
+  .hero-kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 auto 14px;
+    padding: 7px 12px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: rgba(255,255,255,0.03);
+    color: var(--muted);
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: center;
+    margin-bottom: 8px;
+  }
+
+  .badge {
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 100px;
+    letter-spacing: 0.04em;
+  }
+  .badge-hero { background: var(--hero-dim); color: var(--hero); border: 1px solid rgba(0,212,255,0.2); }
+  .badge-imovel { background: var(--imovel-dim); color: var(--imovel); border: 1px solid rgba(255,107,53,0.2); }
+  .badge-print { background: var(--print-dim); color: var(--print); border: 1px solid rgba(168,255,62,0.2); }
+
+  /* ── SECTION ── */
+  .section { margin-bottom: 10px; }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 18px;
+    border-radius: 14px 14px 0 0;
+    cursor: pointer;
+    user-select: none;
+    border: 1px solid var(--border);
+    border-bottom: none;
+    transition: background 0.2s;
+    position: relative;
+  }
+
+  .section-header:hover { filter: brightness(1.1); }
+
+  .section-header.hero-header { background: linear-gradient(90deg, var(--hero-dim), transparent); border-color: rgba(0,212,255,0.2); }
+  .section-header.imovel-header { background: linear-gradient(90deg, var(--imovel-dim), transparent); border-color: rgba(255,107,53,0.2); }
+  .section-header.print-header { background: linear-gradient(90deg, var(--print-dim), transparent); border-color: rgba(168,255,62,0.2); }
+  .section-header.social-header { background: linear-gradient(90deg, var(--social-dim), transparent); border-color: rgba(192,132,252,0.2); }
+
+  .section-icon { font-size: 1.2rem; }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    flex: 1;
+  }
+
+  .hero-header .section-title { color: var(--hero); }
+  .imovel-header .section-title { color: var(--imovel); }
+  .print-header .section-title { color: var(--print); }
+  .social-header .section-title { color: var(--social); }
+
+  .section-desc {
+    margin: 8px 18px 0;
+    padding: 0 0 12px;
+    font-size: 0.75rem;
+    line-height: 1.45;
+    color: var(--muted);
+    border-left: 2px solid transparent;
+  }
+
+  .imovel-desc { border-left-color: rgba(255,107,53,0.35); }
+  .hero-desc { border-left-color: rgba(0,212,255,0.35); }
+  .print-desc { border-left-color: rgba(168,255,62,0.35); }
+  .social-desc { border-left-color: rgba(192,132,252,0.35); }
+
+  .chevron {
+    font-size: 0.75rem;
+    color: var(--muted);
+    transition: transform 0.25s;
+  }
+  .section.open .chevron { transform: rotate(180deg); }
+
+  /* ── LINKS CONTAINER ── */
+  .links-body {
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 0.35s ease;
+    border: 1px solid var(--border);
+    border-top: none;
+    border-radius: 0 0 14px 14px;
+  }
+
+  .section.open .links-body { max-height: 1200px; }
+
+  .imovel-header ~ .links-body { border-color: rgba(255,107,53,0.15); }
+  .hero-header ~ .links-body { border-color: rgba(0,212,255,0.15); }
+  .print-header ~ .links-body { border-color: rgba(168,255,62,0.15); }
+  .social-header ~ .links-body { border-color: rgba(192,132,252,0.15); }
+
+  /* ── LINK ITEM ── */
+  .link-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 13px 18px;
+    text-decoration: none;
+    color: var(--text);
+    background: var(--card);
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s, transform 0.1s;
+  }
+
+  .link-item:last-child { border-bottom: none; }
+  .link-item:hover { background: var(--card-hover); transform: translateX(3px); }
+  .link-item:active { transform: scale(0.99); }
+
+  .link-emoji { font-size: 1.1rem; width: 28px; text-align: center; flex-shrink: 0; }
+
+  .link-text { flex: 1; }
+
+  .link-label {
+    font-size: 0.88rem;
+    font-weight: 500;
+    line-height: 1.3;
+  }
+
+  .link-sub {
+    font-size: 0.72rem;
+    color: var(--muted);
+    margin-top: 2px;
+    line-height: 1.3;
+  }
+
+  .link-arrow {
+    font-size: 0.75rem;
+    color: var(--muted);
+    flex-shrink: 0;
+    transition: color 0.15s;
+  }
+
+  .link-item:hover .link-arrow { color: var(--text); }
+
+  /* ── WHATSAPP BUTTON ── */
+  .wa-wrap { padding: 20px 0 8px; }
+
+  .wa-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 16px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #25D366, #128C7E);
+    color: #fff;
+    text-decoration: none;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    box-shadow: 0 4px 24px rgba(37,211,102,0.25);
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+
+  .wa-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(37,211,102,0.35);
+  }
+
+  .wa-btn-icon { font-size: 1.3rem; }
+
+  .overview-card {
+    margin: 0 0 14px;
+    padding: 16px 16px 14px;
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 18px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+    box-shadow: 0 14px 32px rgba(0,0,0,0.12);
+  }
+
+  .overview-title {
+    font-family: 'Syne', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 800;
+    letter-spacing: 0.03em;
+    margin-bottom: 8px;
+    color: #fff;
+  }
+
+  .overview-text {
+    font-size: 0.82rem;
+    line-height: 1.55;
+    color: var(--muted);
+  }
+
+  /* ── EMAILS ── */
+  .emails-section { margin-top: 14px; }
+
+  .emails-inner {
+    background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)), var(--card);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 16px 44px rgba(0,0,0,0.10);
+  }
+
+  .emails-header {
+    padding: 14px 18px;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+    background: rgba(255,255,255,0.02);
+  }
+
+  .emails-grid {
+    display: grid;
+    gap: 14px;
+    padding: 14px;
+  }
+
+  .email-group {
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    background: rgba(255,255,255,0.02);
+  }
+
+  .email-group-title {
+    padding: 12px 14px 8px;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 700;
+    line-height: 1.35;
+    color: var(--hero);
+  }
+
+  .email-group-subtitle {
+    padding: 0 14px 10px;
+    font-size: 0.72rem;
+    line-height: 1.4;
+    color: var(--muted);
+  }
+
+  .email-list {
+    display: grid;
+    gap: 8px;
+    padding: 0 14px 14px;
+  }
+
+  .email-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    text-decoration: none;
+    color: var(--text);
+    background: var(--card);
+    transition: transform 0.15s, background 0.15s, border-color 0.15s;
+    font-size: 0.82rem;
+    word-break: break-word;
+  }
+
+  .email-item:hover {
+    background: var(--card-hover);
+    border-color: rgba(67,97,238,0.35);
+    transform: translateY(-1px);
+  }
+
+  .email-item span {
+    flex: 0 0 auto;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    text-align: center;
+    padding: 32px 0 0;
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+
+  .footer strong { color: var(--hero); }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- HEADER -->
+  <header class="hero">
+    <div class="avatar-ring">
+      <div class="avatar-inner">👨🏻‍💼</div>
+    </div>
+    <h1 class="hero-name">Augusto Seixas</h1>
+    <div class="hero-kicker">Hub Premium de Serviços & Ecossistema Digital</div>
+    <p class="hero-tagline">Imobiliário · IA · Impressão 3D · Desenvolvimento · Parcerias Estratégicas</p>
+    <p class="hero-intro">
+      Um ponto único para conhecer, acessar e navegar por todas as frentes de atuação:
+      imóvel, tecnologia, automação, criação 3D, presença digital e parcerias do ecossistema HERO.
+    </p>
+    <div class="badges">
+      <span class="badge badge-imovel">CRECI-RJ 105921</span>
+      <span class="badge badge-hero">Founder HERO.IA</span>
+      <span class="badge badge-print">Founder HERO.3D</span>
+    </div>
+  </header>
+
+  <!-- WHATSAPP -->
+  <div class="wa-wrap">
+    <a class="wa-btn" href="https://wa.me/5521985653880" target="_blank" rel="noopener">
+      <span class="wa-btn-icon">💬</span>
+      Atendimento Premium no WhatsApp
+    </a>
+  </div>
+
+  <div class="overview-card">
+    <div class="overview-title">Navegação Prioritária</div>
+    <div class="overview-text">
+      1. Imobiliário, 2. HERO.IA.BR, 3. HERO.3D / 3D Print Ideias, 4. Informática & Desenvolvimento,
+      5. Business & Negócios Express.
+    </div>
+  </div>
+
+  <!-- IMÓVEIS -->
+  <div class="section open" id="sec-imoveis">
+    <div class="section-header imovel-header" onclick="toggle('sec-imoveis')">
+      <span class="section-icon">🏠</span>
+      <span class="section-title">1. Imobiliário Premium</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-desc imovel-desc">
+      Corretagem, captação, compra, venda, aluguel e avaliações imobiliárias em Niterói,
+      Região Oceânica, Maricá e entorno.
+    </div>
+    <div class="links-body">
+      <a class="link-item" href="https://augustoseixascorretor.com.br/" target="_blank" rel="noopener">
+        <span class="link-emoji">🏡</span>
+        <div class="link-text">
+          <div class="link-label">Augusto Seixas Corretor de Imóveis</div>
+          <div class="link-sub">Lançamentos, captação, compra, venda e aluguel</div>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+      <a class="link-item" href="https://www.quintoandar.com.br/corretor/atendimento/JoseSeixas-JZ51" target="_blank" rel="noopener">
+        <span class="link-emoji">🏢</span>
+        <div class="link-text">
+          <div class="link-label">Corretor Associado QuintoAndar</div>
+          <div class="link-sub">Atendimento para compra, venda e aluguel</div>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+      <a class="link-item" href="http://hero.ia.br/cury--orla-central/" target="_blank" rel="noopener">
+        <span class="link-emoji">🏗️</span>
+        <div class="link-text">
+          <div class="link-label">Cury Orla Central</div>
+          <div class="link-sub">Lançamento imobiliário premium em Niterói</div>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+      <a class="link-item" href="http://hero.ia.br/Porto-Real-Resort/" target="_blank" rel="noopener">
+        <span class="link-emoji">🏖️</span>
+        <div class="link-text">
+          <div class="link-label">Porto Real Resort</div>
+          <div class="link-sub">Empreendimento de alto padrão e lifestyle</div>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- HERO.IA -->
+  <div class="section open" id="sec-hero">
+    <div class="section-header hero-header" onclick="toggle('sec-hero')">
+      <span class="section-icon">🤖</span>
+      <span class="section-title">2. HERO.IA.BR</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-desc hero-desc">
+      Plataforma de IA e assistente de atendimento WhatsApp para conversão, automação,
+      prospecção e operação comercial.
+    </div>
+    <div class="links-body">
+      <a class="link-item" href="https://hero.ia.br/" target="_blank" rel="noopener">
+        <span class="link-emoji">🧠</span>
+        <div class="link-text">
+          <div class="link-label">Portal Institucional HERO.IA</div>
+          <div class="link-sub">Visão geral da plataforma e do ecossistema</div>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+      <a class="link-item" href="https://hero.ia.br/HEROIA-FULL-Nuven/heroia_webpwa/index.html" target="_blank" rel="noopener">
+        <span class="link-emoji">📱</span>
+        <div class="link-text">
+          <div class="link-label">HERO PWA — Suite Completa</div>
+          <div class="link-sub">App web para operação ágil e premium</div>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+      <a class="link-item" href="https://hero.ia.br/hp_business/index.html" target="_blank" rel="noopener">
+        <span class="link-emoji">🏢</span>
+        <div class="link-text">
+          <div class="link-label">Plataforma Comercial HERO</div>
+          <div class="link-sub">Hub de negócios, atendimento e operação</div>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+      <a class="link-item" href="https://hero.ia.br/HEROIA-FULL-Nuven/heroia_app_admin/" target="_blank" rel="noopener">
+        <span class="link-emoji">🏷️</span>
+        <div class="link-text">
+          <div class="link-label">HERO App Admin</div>
+          <div class="link-sub">Área administrativa e gestão interna</div>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+      <a class="link-item" href="https://hero.ia.br/hp_business/" target="_blank" rel="noopener">
+        <span class="link-emoji">📣</span>
+        <div class="link-text">
+          <div class="link-label">HERO Outreach</div>
+          <div class="link-sub">Automação de relacionamento e campanhas</div>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+      <a class="link-item" href="https://hero.ia.br/prospect-leads/" target="_blank" rel="noopener">
+        <span class="link-emoji">🗺️</span>
+        <div class="link-text">
+          <div class="link-label">HERO Prospect Map</div>
+          <div class="link-sub">Prospecção inteligente via Google Maps</div>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+      <a class="link-item" href="https://hero.ia.br/hero-os/" target="_blank" rel="noopener">
+        <span class="link-emoji">🎯</span>
+        <div class="link-text">
+          <div class="link-label">HERO Trainer</div>
+          <div class="link-sub">Sistema de treinamento e automação IA</div>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+      <a class="link-item" href="https://pay.hotmart.com/S103706651L?off=64c25bj6&bid=1771705199209" target="_blank" rel="noopener">
+        <span class="link-emoji">🎓</span>
+        <div class="link-text">
+          <div class="link-label">Licença HERO no Hotmart</div>
+          <div class="link-sub">Acesso comercial à solução completa</div>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+      <a class="link-item" href="http://hero.ia.br/heroia-installer/" target="_blank" rel="noopener">
+        <span class="link-emoji">📥</span>
+        <div class="link-text">
+          <div class="link-label">Download HERO Installer</div>
+          <div class="link-sub">Instalador da extensão e ferramentas</div>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- HERO.3D -->
+  <div class="section open" id="sec-3d">
+    <div class="section-header print-header" onclick="toggle('sec-3d')">
+      <span class="section-icon">🖨️</span>
+      <span class="section-title">3. HERO.3D / 3D Print Ideias</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-desc print-desc">
+      Projetos, criação de modelos, otimização de impressão e entregas em 3D com foco em qualidade e visão computacional.
+    </div>
+    <div class="links-body">
+      <a class="link-item" href="https://hero.ia.br/3dprintideias/" target="_blank" rel="noopener">
+        <span class="link-emoji">🏭</span>
+        <div class="link-text">
+          <div class="link-label">3D Print Ideias</div>
+          <div class="link-sub">Portfólio e soluções em impressão 3D</div>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+      <a class="link-item" href="https://hotmart.com/pt-br/marketplace/produtos/hero-3d-print-otimization-by-gpt-vision/I105966268D" target="_blank" rel="noopener">
+        <span class="link-emoji">🛍️</span>
+        <div class="link-text">
+          <div class="link-label">HERO 3D Print Optimizer</div>
+          <div class="link-sub">GPT-Vision para otimização de impressão 3D</div>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+      <a class="link-item" href="https://69c8767706b36f0008c366c3--delicate-selkie-9200be.netlify.app" target="_blank" rel="noopener">
+        <span class="link-emoji">☑️</span>
+        <div class="link-text">
+          <div class="link-label">Catálogo 3D Interativo</div>
+          <div class="link-sub">Menu de produtos, projetos e referências</div>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- REDES SOCIAIS -->
+  <div class="section open" id="sec-social">
+    <div class="section-header social-header" onclick="toggle('sec-social')">
+      <span class="section-icon">🌐</span>
+      <span class="section-title">4. Informática & Redes</span>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="section-desc social-desc">
+      Desenvolvimento de páginas web, landpages, sistemas de IA, PWA, frontend, backend e presença digital para cada frente do ecossistema.
+    </div>
+    <div class="links-body">
+      <a class="link-item" href="https://www.instagram.com/augustoseixas_corretorimoveis" target="_blank" rel="noopener">
+        <span class="link-emoji">📸</span>
+        <div class="link-text">
+          <div class="link-label">Instagram — Imobiliário</div>
+          <div class="link-sub">@augustoseixas_corretorimoveis</div>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+      <a class="link-item" href="https://www.instagram.com/hero.ia.br/" target="_blank" rel="noopener">
+        <span class="link-emoji">🤖</span>
+        <div class="link-text">
+          <div class="link-label">Instagram — HERO.IA</div>
+          <div class="link-sub">@hero.ia.br</div>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+      <a class="link-item" href="https://www.instagram.com/3dprintideias/" target="_blank" rel="noopener">
+        <span class="link-emoji">📸</span>
+        <div class="link-text">
+          <div class="link-label">Instagram — 3D Print Ideias</div>
+          <div class="link-sub">@3dprintideias</div>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+      <a class="link-item" href="https://www.facebook.com/AugustoSeixasCorretordeImoveis" target="_blank" rel="noopener">
+        <span class="link-emoji">📘</span>
+        <div class="link-text">
+          <div class="link-label">Facebook — Imobiliário</div>
+          <div class="link-sub">Augusto Seixas Corretor de Imóveis</div>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+      <a class="link-item" href="https://www.youtube.com/@AugustoSeixasCorretorimoveis" target="_blank" rel="noopener">
+        <span class="link-emoji">▶️</span>
+        <div class="link-text">
+          <div class="link-label">YouTube — Conteúdo e autoridade</div>
+          <div class="link-sub">@AugustoSeixasCorretorimoveis</div>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+      <a class="link-item" href="https://www.linkedin.com/in/augusto-seixas2020" target="_blank" rel="noopener">
+        <span class="link-emoji">💼</span>
+        <div class="link-text">
+          <div class="link-label">LinkedIn — Profissional</div>
+          <div class="link-sub">Conexões de negócios e networking</div>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+    </div>
+  </div>
+
+  <!-- EMAILS -->
+  <div class="emails-section">
+    <div class="emails-inner">
+      <div class="emails-header">📧 Contatos por E-mail e Departamentos</div>
+      <div class="emails-grid">
+        <section class="email-group">
+          <div class="email-group-title">Corretor Imobiliário Augusto Seixas</div>
+          <div class="email-group-subtitle">Atendimento comercial, captação, compra, venda, aluguel e avaliações.</div>
+          <div class="email-list">
+            <a class="email-item" href="mailto:augustosseixas@gmail.com"><span>📩</span> augustosseixas@gmail.com</a>
+            <a class="email-item" href="mailto:augusto.seixas@terra.com.br"><span>📩</span> augusto.seixas@terra.com.br</a>
+            <a class="email-item" href="mailto:joseadsseixas@gmail.com"><span>📩</span> joseadsseixas@gmail.com</a>
+          </div>
+        </section>
+
+        <section class="email-group">
+          <div class="email-group-title">HERO.IA.BR - Assistente de Atendimento WhatsApp</div>
+          <div class="email-group-subtitle">Suporte, atendimento automatizado e comunicações da plataforma.</div>
+          <div class="email-list">
+            <a class="email-item" href="mailto:hero.ia.copiloto@gmail.com"><span>📩</span> hero.ia.copiloto@gmail.com</a>
+          </div>
+        </section>
+
+        <section class="email-group">
+          <div class="email-group-title">3D Print Ideias</div>
+          <div class="email-group-subtitle">HERO 3D Print Optimizer de Impressão 3D - GPT-Vision</div>
+          <div class="email-list">
+            <a class="email-item" href="mailto:3dprintideias3d@gmail.com"><span>📩</span> 3dprintideias3d@gmail.com</a>
+          </div>
+        </section>
+
+        <section class="email-group">
+          <div class="email-group-title">Informática - Desenvolvimento de Páginas WEB, Sistemas IA, Aplicativos PWA etc.</div>
+          <div class="email-group-subtitle">Projetos front-end, back-end, automações e soluções digitais sob medida.</div>
+          <div class="email-list">
+            <a class="email-item" href="mailto:CyberStop469@terra.com.br"><span>📩</span> CyberStop469@terra.com.br</a>
+            <a class="email-item" href="mailto:Thekingcenterv@gmail.com"><span>📩</span> Thekingcenterv@gmail.com</a>
+          </div>
+        </section>
+
+        <section class="email-group">
+          <div class="email-group-title">Business & Negócios Express</div>
+          <div class="email-group-subtitle">White label, parcerias estratégicas e licenciamentos do ecossistema HERO.</div>
+          <div class="email-list">
+            <a class="email-item" href="mailto:businessenegociosexpress@gmail.com"><span>📩</span> businessenegociosexpress@gmail.com</a>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p>© 2026 <strong>Augusto Seixas</strong> · Niterói, RJ</p>
+    <p style="margin-top:6px">CRECI-RJ 105921 · HERO.IA · HERO.3D · Business & Negócios Express</p>
+  </footer>
+
+</div>
+
+<script>
+  function toggle(id) {
+    const sec = document.getElementById(id);
+    sec.classList.toggle('open');
+  }
+</script>
+</body>
+</html>
