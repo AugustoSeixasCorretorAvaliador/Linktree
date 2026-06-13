@@ -556,14 +556,6 @@
         </div>
         <span class="link-arrow">→</span>
       </a>
-      <a class="link-item" href="https://hero.ia.br/HEROIA-FULL-Nuven/heroia_app_admin/" target="_blank" rel="noopener">
-        <span class="link-emoji">🏷️</span>
-        <div class="link-text">
-          <div class="link-label">HERO App Admin</div>
-          <div class="link-sub">Área administrativa e gestão interna · Senha: hero134134134</div>
-        </div>
-        <span class="link-arrow">→</span>
-      </a>
       <a class="link-item" href="https://pay.hotmart.com/S103706651L?off=64c25bj6&bid=1771705199209" target="_blank" rel="noopener">
         <span class="link-emoji">🎓</span>
         <div class="link-text">
@@ -577,6 +569,14 @@
         <div class="link-text">
           <div class="link-label">Download HERO Installer</div>
           <div class="link-sub">Instalador da extensão e ferramentas</div>
+        </div>
+        <span class="link-arrow">→</span>
+      </a>
+      <a class="link-item" href="https://hero.ia.br/HEROIA-FULL-Nuven/heroia_app/" target="_blank" rel="noopener" onclick="return promptHeroAdmin(event, this)">
+        <span class="link-emoji">🏷️</span>
+        <div class="link-text">
+          <div class="link-label">HERO App Admin</div>
+          <div class="link-sub">Área administrativa e gestão interna</div>
         </div>
         <span class="link-arrow">→</span>
       </a>
@@ -742,6 +742,17 @@
 </div>
 
 <script>
+  function promptHeroAdmin(event, link) {
+    event.preventDefault();
+    const senha = prompt('Digite a senha de acesso ao HERO App Admin');
+    if (senha === 'hero134134134') {
+      window.open(link.href, '_blank', 'noopener');
+    } else if (senha !== null) {
+      alert('Senha incorreta.');
+    }
+    return false;
+  }
+
   function toggle(id) {
     const sec = document.getElementById(id);
     sec.classList.toggle('open');
