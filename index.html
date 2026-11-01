@@ -1,458 +1,24 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Augusto Seixas — Links</title>
-<link rel="icon" type="image/jpeg" href="og-image.jpg">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-  :root {
-    --bg: #0A0A0F;
-    --card: #14141F;
-    --card-hover: #1C1C2E;
-    --border: rgba(255,255,255,0.07);
-    --text: #E8E8F0;
-    --muted: #7070A0;
-    --hero: #00D4FF;
-    --hero-dim: rgba(0, 212, 255, 0.12);
-    --imovel: #FF6B35;
-    --imovel-dim: rgba(255, 107, 53, 0.12);
-    --print: #A8FF3E;
-    --print-dim: rgba(168, 255, 62, 0.12);
-    --social: #C084FC;
-    --social-dim: rgba(192, 132, 252, 0.12);
-  }
-
-  html { scroll-behavior: smooth; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Inter', sans-serif;
-    min-height: 100vh;
-    padding: 0 0 80px 0;
-  }
-
-  /* ── AMBIENT GLOW ── */
-  body::before {
-    content: '';
-    position: fixed;
-    top: -200px; left: 50%;
-    transform: translateX(-50%);
-    width: 600px; height: 600px;
-    background: radial-gradient(circle, rgba(0,212,255,0.06) 0%, transparent 70%);
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  .wrap {
-    max-width: 520px;
-    margin: 0 auto;
-    padding: 0 16px;
-    position: relative;
-    z-index: 1;
-  }
-
-  /* ── HEADER ── */
-  .hero {
-    text-align: center;
-    padding: 56px 0 40px;
-  }
-
-  .avatar-ring {
-    display: inline-block;
-    padding: 3px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--hero), var(--imovel), var(--print));
-    margin-bottom: 20px;
-  }
-
-  .avatar-inner {
-    width: 88px; height: 88px;
-    border-radius: 50%;
-    background: var(--card);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 2.2rem;
-    border: 3px solid var(--bg);
-  }
-
-  .hero-name {
-    font-family: 'Syne', sans-serif;
-    font-size: 1.55rem;
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    line-height: 1.15;
-    margin-bottom: 8px;
-  }
-
-  .hero-tagline {
-    font-size: 0.8rem;
-    color: var(--muted);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    margin-bottom: 16px;
-  }
-
-  .hero-intro {
-    max-width: 430px;
-    margin: 0 auto 18px;
-    padding: 0 6px;
-    font-size: 0.86rem;
-    line-height: 1.55;
-    color: rgba(232,232,240,0.84);
-  }
-
-  .hero-kicker {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    margin: 0 auto 14px;
-    padding: 7px 12px;
-    border: 1px solid var(--border);
-    border-radius: 999px;
-    background: rgba(255,255,255,0.03);
-    color: var(--muted);
-    font-size: 0.72rem;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-  }
-
-  .badges {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    justify-content: center;
-    margin-bottom: 8px;
-  }
-
-  .badge {
-    font-size: 0.7rem;
-    font-weight: 600;
-    padding: 4px 10px;
-    border-radius: 100px;
-    letter-spacing: 0.04em;
-  }
-  .badge-hero { background: var(--hero-dim); color: var(--hero); border: 1px solid rgba(0,212,255,0.2); }
-  .badge-imovel { background: var(--imovel-dim); color: var(--imovel); border: 1px solid rgba(255,107,53,0.2); }
-  .badge-print { background: var(--print-dim); color: var(--print); border: 1px solid rgba(168,255,62,0.2); }
-
-  /* ── SECTION ── */
-  .section { margin-bottom: 10px; }
-
-  .section-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 14px 18px;
-    border-radius: 14px 14px 0 0;
-    cursor: pointer;
-    user-select: none;
-    border: 1px solid var(--border);
-    border-bottom: none;
-    transition: background 0.2s;
-    position: relative;
-  }
-
-  .section-header:hover { filter: brightness(1.1); }
-
-  .section-header.hero-header { background: linear-gradient(90deg, var(--hero-dim), transparent); border-color: rgba(0,212,255,0.2); }
-  .section-header.imovel-header { background: linear-gradient(90deg, var(--imovel-dim), transparent); border-color: rgba(255,107,53,0.2); }
-  .section-header.print-header { background: linear-gradient(90deg, var(--print-dim), transparent); border-color: rgba(168,255,62,0.2); }
-  .section-header.social-header { background: linear-gradient(90deg, var(--social-dim), transparent); border-color: rgba(192,132,252,0.2); }
-
-  .section-icon { font-size: 1.2rem; }
-
-  .section-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    flex: 1;
-  }
-
-  .hero-header .section-title { color: var(--hero); }
-  .imovel-header .section-title { color: var(--imovel); }
-  .print-header .section-title { color: var(--print); }
-  .social-header .section-title { color: var(--social); }
-
-  .section-desc {
-    margin: 8px 18px 0;
-    padding: 0 0 12px;
-    font-size: 0.75rem;
-    line-height: 1.45;
-    color: var(--muted);
-    border-left: 2px solid transparent;
-  }
-
-  .imovel-desc { border-left-color: rgba(255,107,53,0.35); }
-  .hero-desc { border-left-color: rgba(0,212,255,0.35); }
-  .print-desc { border-left-color: rgba(168,255,62,0.35); }
-  .social-desc { border-left-color: rgba(192,132,252,0.35); }
-
-  .chevron {
-    font-size: 0.75rem;
-    color: var(--muted);
-    transition: transform 0.25s;
-  }
-  .section.open .chevron { transform: rotate(180deg); }
-
-  /* ── LINKS CONTAINER ── */
-  .links-body {
-    overflow: hidden;
-    max-height: 0;
-    transition: max-height 0.35s ease;
-    border: 1px solid var(--border);
-    border-top: none;
-    border-radius: 0 0 14px 14px;
-  }
-
-  .section.open .links-body { max-height: 1200px; }
-
-  .imovel-header ~ .links-body { border-color: rgba(255,107,53,0.15); }
-  .hero-header ~ .links-body { border-color: rgba(0,212,255,0.15); }
-  .print-header ~ .links-body { border-color: rgba(168,255,62,0.15); }
-  .social-header ~ .links-body { border-color: rgba(192,132,252,0.15); }
-
-  /* ── LINK ITEM ── */
-  .link-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 13px 18px;
-    text-decoration: none;
-    color: var(--text);
-    background: var(--card);
-    border-bottom: 1px solid var(--border);
-    transition: background 0.15s, transform 0.1s;
-  }
-
-  .link-item:last-child { border-bottom: none; }
-  .link-item:hover { background: var(--card-hover); transform: translateX(3px); }
-  .link-item:active { transform: scale(0.99); }
-
-  .link-emoji { font-size: 1.1rem; width: 28px; text-align: center; flex-shrink: 0; }
-
-  .link-text { flex: 1; }
-
-  .link-label {
-    font-size: 0.88rem;
-    font-weight: 500;
-    line-height: 1.3;
-  }
-
-  .link-sub {
-    font-size: 0.72rem;
-    color: var(--muted);
-    margin-top: 2px;
-    line-height: 1.3;
-  }
-
-  .link-arrow {
-    font-size: 0.75rem;
-    color: var(--muted);
-    flex-shrink: 0;
-    transition: color 0.15s;
-  }
-
-  .link-item:hover .link-arrow { color: var(--text); }
-
-  /* ── WHATSAPP BUTTON ── */
-  .wa-wrap { padding: 20px 0 8px; }
-
-  .wa-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    width: 100%;
-    padding: 16px;
-    border-radius: 14px;
-    background: linear-gradient(135deg, #25D366, #128C7E);
-    color: #fff;
-    text-decoration: none;
-    font-family: 'Syne', sans-serif;
-    font-size: 0.95rem;
-    font-weight: 700;
-    letter-spacing: 0.03em;
-    box-shadow: 0 4px 24px rgba(37,211,102,0.25);
-    transition: transform 0.15s, box-shadow 0.15s;
-  }
-
-  .wa-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 32px rgba(37,211,102,0.35);
-  }
-
-  .wa-btn-icon { font-size: 1.3rem; }
-
-  .overview-card {
-    margin: 0 0 14px;
-    padding: 16px 16px 14px;
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 18px;
-    background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
-    box-shadow: 0 14px 32px rgba(0,0,0,0.12);
-  }
-
-  .overview-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 0.9rem;
-    font-weight: 800;
-    letter-spacing: 0.03em;
-    margin-bottom: 8px;
-    color: #fff;
-  }
-
-  .overview-text {
-    font-size: 0.82rem;
-    line-height: 1.55;
-    color: var(--muted);
-  }
-
-  /* ── EMAILS ── */
-  .emails-section { margin-top: 14px; }
-
-  .emails-inner {
-    background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01)), var(--card);
-    border: 1px solid var(--border);
-    border-radius: 18px;
-    overflow: hidden;
-    box-shadow: 0 16px 44px rgba(0,0,0,0.10);
-  }
-
-  .emails-header {
-    padding: 14px 18px;
-    font-family: 'Syne', sans-serif;
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--muted);
-    border-bottom: 1px solid var(--border);
-    background: rgba(255,255,255,0.02);
-  }
-
-  .emails-grid {
-    display: grid;
-    gap: 14px;
-    padding: 14px;
-  }
-
-  .email-group {
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    overflow: hidden;
-    background: rgba(255,255,255,0.02);
-  }
-
-  .email-group-title {
-    padding: 12px 14px 8px;
-    font-family: 'Syne', sans-serif;
-    font-size: 0.88rem;
-    font-weight: 700;
-    line-height: 1.35;
-    color: var(--hero);
-  }
-
-  .email-group-subtitle {
-    padding: 0 14px 10px;
-    font-size: 0.72rem;
-    line-height: 1.4;
-    color: var(--muted);
-  }
-
-  .email-list {
-    display: grid;
-    gap: 8px;
-    padding: 0 14px 14px;
-  }
-
-  .email-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 12px;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    text-decoration: none;
-    color: var(--text);
-    background: var(--card);
-    transition: transform 0.15s, background 0.15s, border-color 0.15s;
-    font-size: 0.82rem;
-    word-break: break-word;
-  }
-
-  .email-item:hover {
-    background: var(--card-hover);
-    border-color: rgba(67,97,238,0.35);
-    transform: translateY(-1px);
-  }
-
-  .email-item span {
-    flex: 0 0 auto;
-  }
-
-  /* ── FOOTER ── */
-  .footer {
-    text-align: center;
-    padding: 32px 0 0;
-    font-size: 0.72rem;
-    color: var(--muted);
-  }
-
-  .footer strong { color: var(--hero); }
-
-  @media (prefers-reduced-motion: reduce) {
-    * { transition: none !important; }
-  }
-</style>
-</head>
-<body>
-<div class="wrap">
-
-  <!-- HEADER -->
-  <header class="hero">
-    <div class="avatar-ring">
-      <div class="avatar-inner">👨🏻‍💼</div>
-    </div>
-    <h1 class="hero-name">Augusto Seixas</h1>
-    <div class="hero-kicker">Hub Premium de Serviços & Ecossistema Digital</div>
-    <p class="hero-tagline">Imobiliário · IA · Impressão 3D · Desenvolvimento · Parcerias Estratégicas</p>
-    <p class="hero-intro">
-      Um ponto único para conhecer, acessar e navegar por todas as frentes de atuação:
-      imóvel, tecnologia, automação, criação 3D, presença digital e parcerias do ecossistema HERO.
-    </p>
-    <div class="badges">
-      <span class="badge badge-imovel">CRECI-RJ 105921</span>
-      <span class="badge badge-hero">Founder HERO.IA</span>
-      <span class="badge badge-print">Founder HERO.3D</span>
-    </div>
-  </header>
-
-  <!-- WHATSAPP -->
-  <div class="wa-wrap">
-    <a class="wa-btn" href="https://wa.me/5521985653880" target="_blank" rel="noopener">
-      <span class="wa-btn-icon">💬</span>
-      Atendimento Premium no WhatsApp
-    </a>
-  </div>
-
-  <div class="overview-card">
-    <div class="overview-title">Navegação Prioritária</div>
-    <div class="overview-text">
-      1. Imobiliário, 2. HERO.IA.BR, 3. HERO.3D / 3D Print Ideias, 4. Informática & Desenvolvimento,
-      5. Business & Negócios Express.
-    </div>
-  </div>
-
-  <!-- IMÓVEIS -->
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Augusto Seixas | Negócios, tecnologia e conexões</title><meta name="description" content="Converse com Augusto Seixas. Imóveis, inteligência artificial, automação, desenvolvimento e impressão 3D."><link rel="icon" type="image/jpeg" href="og-image.jpg"><meta name="theme-color" content="#142c31"><style>
+:root{--ink:#142c31;--muted:#57676a;--paper:#f6f5ef;--line:#dcded6;--gold:#d6b16a;--white:#fff}*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.6 system-ui,-apple-system,sans-serif}a{color:inherit;text-decoration:none}button{font:inherit;cursor:pointer}a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid #b57a23;outline-offset:4px}.wrap{max-width:1020px;margin:auto;padding:30px 24px 100px}.top{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--line);padding-bottom:20px}.brand{font-weight:800;letter-spacing:.1em}.top a{font-size:13px}.hero{padding:48px 0 30px;display:grid;grid-template-columns:1.35fr 1fr;gap:48px;align-items:center}.eyebrow{text-transform:uppercase;letter-spacing:.16em;font-size:11px;font-weight:750;color:var(--muted)}h1{font-family:Georgia,serif;font-size:clamp(48px,8vw,78px);font-weight:400;line-height:1.02;margin:18px 0}h1 em{font-style:normal;color:#7b643b}h2{font-family:Georgia,serif;font-weight:400;font-size:32px;line-height:1.2;margin:0 0 12px}p{margin:0 0 18px}.lead{max-width:520px;color:var(--muted);font-size:17px}.badge{font-size:11px;border:1px solid var(--line);border-radius:30px;display:inline-block;padding:5px 10px;margin:0 4px 6px 0}.contact{background:var(--ink);color:var(--white);padding:28px;border-radius:22px}.contact .eyebrow{color:#d6d9d2}.contact h2{font-size:28px;margin-top:15px}.contact p{color:#d4dedb;font-size:14px}.btn{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px 18px;border-radius:12px;border:0;font-weight:650;width:100%;text-align:left;background:var(--white);color:var(--ink)}.gold{background:var(--gold)}.contact .btn+.btn{margin-top:10px}.small{font-size:12px;color:var(--muted)}.sectionhead{display:flex;align-items:end;justify-content:space-between;gap:15px;margin:30px 0 18px}.sectionhead h2{margin:0}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.card{padding:24px;background:white;border:1px solid var(--line);border-radius:16px;display:block;transition:transform .15s,border-color .15s}.card:hover{transform:translateY(-2px);border-color:#859a90}.number{font-size:11px;letter-spacing:.12em;color:var(--muted)}.card h3{font-size:20px;margin:14px 0 7px}.card p{font-size:14px;color:var(--muted);margin:0 0 16px}.arrow{font-size:13px;font-weight:700}.utility{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:25px}.utility article{background:#e9ece4;border-radius:16px;padding:24px}.utility h3{margin:0 0 8px;font-size:20px}.utility p{font-size:14px;color:var(--muted)}.stars{color:#8b682a;letter-spacing:.15em}.utility button:disabled{cursor:default;color:#63706a;background:#dfe2da}.key{display:block;font-size:18px;font-weight:650;margin:12px 0;word-break:break-all}.about{border-top:1px solid var(--line);padding-top:30px;margin-top:35px;display:grid;grid-template-columns:1fr 1.4fr;gap:30px}.about p{color:var(--muted);font-size:14px}.social{display:flex;flex-wrap:wrap;gap:10px;margin:25px 0}.social a,.tools button{background:transparent;border:1px solid var(--line);padding:9px 14px;border-radius:30px;font-size:13px}.tools{display:flex;flex-wrap:wrap;gap:10px}.footer{font-size:11px;color:var(--muted);padding-top:22px}.float{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--ink);color:white;padding:12px 25px;border-radius:40px;box-shadow:0 8px 30px #142c3133;font-size:14px;white-space:nowrap}.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);background:#142c31;color:white;padding:12px 20px;border-radius:12px;max-width:90%;z-index:5}.toast:empty{display:none}dialog{border:1px solid var(--line);border-radius:22px;padding:28px;max-width:440px;width:calc(100% - 32px);text-align:center;color:var(--ink)}dialog::backdrop{background:#142c31bb}dialog svg{width:240px;height:240px;max-width:100%;display:block;margin:auto}dialog button{margin-top:12px}#plate{display:none}.manual{margin-top:20px;border:1px solid var(--line);border-radius:12px;padding:14px}.manual summary{cursor:pointer;font-size:13px;font-weight:650}.manual p{font-size:13px;margin:12px 0 0;color:var(--muted)}@media(max-width:680px){.wrap{padding:22px 18px 100px}.hero{grid-template-columns:1fr;gap:25px;padding-top:30px}.grid,.utility,.about{grid-template-columns:1fr}.top a{font-size:11px}.sectionhead{display:block}.sectionhead .small{margin-top:8px}.card{padding:21px}.about{gap:10px}h1{font-size:58px}.contact{padding:24px}}@media(prefers-reduced-motion:reduce){.card{transition:none}}@media print{@page{size:A5;margin:12mm}body{background:white}.wrap,.float,.toast,dialog{display:none!important}#plate{display:flex;min-height:170mm;flex-direction:column;justify-content:center;align-items:center;text-align:center;color:#142c31;border:2px solid #142c31;padding:15mm;border-radius:12px}#plate h1{font-size:36px}#plate svg{width:72mm;height:72mm}#plate p{font-size:13px}#plate .eyebrow{font-size:10px}}
+.family{display:grid;grid-template-columns:1.5fr 1fr;gap:35px;background:#142c31;color:white;border-radius:22px;padding:34px;margin:15px 0 34px}.family h2{font-size:clamp(29px,4vw,39px);margin:15px 0}.family p{font-size:15px;color:#d6dfdb}.family .eyebrow,.family .small{color:#c3cec7}.family aside{border-left:1px solid #53655e;padding-left:30px;align-self:center}.familytags{display:flex;flex-wrap:wrap;gap:7px}.familytags span{border:1px solid #647368;border-radius:30px;padding:5px 10px;font-size:11px;color:#e3e9e1}@media(max-width:680px){.family{grid-template-columns:1fr;padding:24px;gap:24px}.family aside{border-left:0;border-top:1px solid #53655e;padding:22px 0 0}}[hidden]{display:none!important}
+.family-product{width:100%;max-height:320px;object-fit:cover;border-radius:14px;display:block;margin-top:20px}.reputation{border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:35px 0;margin:20px 0 35px}.reputation h2{margin:12px 0 18px;font-size:clamp(29px,4vw,39px)}.reputation>p{max-width:790px;color:var(--muted)}.proof-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin:28px 0}.proof-grid strong{display:block;font-size:26px;line-height:1.3}.proof-grid span{display:block;font-size:12px;color:var(--muted);margin-top:7px}.credentials{display:flex;gap:8px;flex-wrap:wrap;margin:20px 0}.credentials span{font-size:12px;background:#e7e9df;border-radius:30px;padding:6px 12px}.systems{margin:40px 0}.systems-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.system-card{background:white;border:1px solid var(--line);border-radius:16px;overflow:hidden;display:block}.system-card>img{width:100%;height:220px;object-fit:cover;object-position:top;background:#142c31}.system-card>div{padding:20px}.system-card h3{font-size:18px;margin:0 0 10px}.system-card p{font-size:13px;color:var(--muted)}.development{display:flex;align-items:center;background:#eceee7}.robot-proof{background:var(--ink);color:white;border-radius:22px;display:grid;grid-template-columns:1fr 1fr;overflow:hidden;margin:35px 0}.robot-proof>img{width:100%;height:100%;max-height:450px;object-fit:cover}.robot-proof>div{padding:35px;align-self:center}.robot-proof .eyebrow{color:#d6b16a}.robot-proof h2{margin:16px 0}.robot-proof p{color:#d5deda;font-size:14px}.directory{margin-top:40px;padding-top:35px;border-top:2px solid var(--line)}.directory h2{margin:12px 0}.directory .section{border:1px solid var(--line);background:white;border-radius:16px;margin:20px 0;overflow:hidden}.directory .section-header{display:flex;gap:12px;align-items:center;font-weight:700;padding:20px;background:#e7ebe3}.directory .chevron{display:none}.directory .section-desc{padding:18px 20px 0;font-size:14px;color:var(--muted)}.directory .links-body{padding:8px 20px 18px;display:grid;grid-template-columns:1fr 1fr;gap:0 24px}.directory .link-item{display:flex;gap:12px;align-items:center;border-bottom:1px solid var(--line);padding:17px 0;min-width:0}.directory .link-text{flex:1;min-width:0}.directory .link-label{font-size:14px;font-weight:650}.directory .link-sub{font-size:12px;color:var(--muted);margin-top:4px}.directory .link-emoji{font-size:20px}.directory .link-arrow{font-size:15px}.directory .unavailable{opacity:.65}.directory .emails-section{background:#e8ece3;border-radius:16px;padding:25px;margin-top:25px}.directory .emails-header{font-weight:700;margin-bottom:20px}.directory .emails-grid{display:grid;grid-template-columns:1fr 1fr;gap:25px}.directory .email-group-title{font-size:14px;font-weight:700}.directory .email-group-subtitle{font-size:12px;color:var(--muted);margin:7px 0}.directory .email-item{display:block;font-size:13px;padding:5px 0;overflow-wrap:anywhere}.directory .email-item:hover,.directory .link-item:hover .link-label{color:#87632b}@media(max-width:760px){.systems-grid{grid-template-columns:1fr 1fr}.proof-grid{grid-template-columns:1fr 1fr}.robot-proof{grid-template-columns:1fr}.robot-proof>img{max-height:350px}.directory .links-body,.directory .emails-grid{grid-template-columns:1fr}}@media(max-width:440px){.systems-grid{grid-template-columns:1fr}.system-card{display:grid;grid-template-columns:95px 1fr}.system-card>img{height:100%;min-height:190px}.system-card>div{padding:18px}.development{display:block}.robot-proof>div{padding:25px}}.portfolio-visual{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:0 0 30px}.portfolio-visual a{border-radius:18px;overflow:hidden;position:relative;display:block;background:#142c31}.portfolio-visual img{display:block;width:100%;height:380px;object-fit:cover;object-position:top}.portfolio-visual span{position:absolute;bottom:0;left:0;right:0;padding:28px 18px 16px;background:linear-gradient(transparent,#081b24ed);color:white;font-size:13px;font-weight:650}@media(max-width:600px){.portfolio-visual{gap:10px}.portfolio-visual img{height:260px}.portfolio-visual span{font-size:11px;padding:25px 12px 12px}}</style></head><body>
+<main class="wrap"><header class="top"><span class="brand">AS<span style="color:#a98546">.</span></span><a href="https://www.linkedin.com/in/augusto-seixas2020" target="_blank" rel="noopener noreferrer">Conheça minha trajetória ↗</a></header>
+<section class="hero"><div><div class="eyebrow">Estratégia • Tecnologia • Negócios</div><h1>Augusto<br><em>Seixas.</em></h1><p class="lead">Experiência para conectar pessoas, negócios e soluções.</p><p class="lead">Imóveis, inteligência artificial, FamilyOS e criação digital. Escolha o que você precisa e fale diretamente comigo.</p><span class="badge">CRECI-RJ 105921</span><span class="badge">Founder HERO.IA</span><span class="badge">Niterói · RJ</span></div>
+<aside class="contact"><div class="eyebrow">Vamos conversar?</div><h2>Uma boa conexão<br>começa por aqui.</h2><p>Conte o que você procura. Do seu próximo imóvel a um projeto de tecnologia.</p><a class="btn gold" href="https://wa.me/5521985653880?text=Ol%C3%A1%2C%20Augusto!%20Vim%20pelo%20seu%20cart%C3%A3o%20digital.">Falar no WhatsApp <span>↗</span></a><button class="btn" id="saveContact">Salvar meu contato <span>＋</span></button></aside></section>
+<section class="portfolio-visual" aria-label="Apresentações do ecossistema HERO e FamilyOS"><a href="https://hero.ia.br/Hub-Hero/" target="_blank" rel="noopener noreferrer"><img src="assets/hero-ia.webp" alt="Apresentação visual HERO.IA" fetchpriority="high"><span>HERO.IA · Inteligência aplicada</span></a><a href="https://hero.ia.br/herofamilyos/" target="_blank" rel="noopener noreferrer"><img src="assets/hero-familyos.webp" alt="Apresentação HERO FamilyOS"><span>FamilyOS · Gestão familiar</span></a></section><section class="family" aria-labelledby="familyTitle"><div><div class="eyebrow">DESTAQUE / FAMILYOS</div><h2 id="familyTitle">Sua família também merece<br>uma gestão inteligente.</h2><p><strong>FamilyOS — ERP de controle familiar.</strong> Finanças, patrimônio e documentos conectados para facilitar as decisões e o dia a dia da família.</p><div class="familytags"><span>Receitas e despesas</span><span>Cartões e projeções</span><span>Imóveis e patrimônio</span><span>Documentos e OCR</span><span>Alertas de vencimento</span><span>Consultas com IA</span></div><a class="btn gold" style="max-width:330px;margin-top:22px" href="https://hero.ia.br/herofamilyos/" target="_blank" rel="noopener noreferrer">Conhecer o FamilyOS <span>↗</span></a></div><aside><span class="eyebrow">UM SISTEMA OPERACIONAL FAMILIAR</span><p style="font-family:Georgia,serif;font-size:28px;line-height:1.25;margin:18px 0">Mais clareza para planejar.<br>Mais controle para decidir.</p><p style="font-size:14px">Converse com a IA para analisar informações e fazer perguntas sem depender da navegação por todos os módulos.</p><img class="family-product" src="assets/hero_familyos.webp" alt="Apresentação do HERO FamilyOS" width="400" height="400" loading="lazy"></aside></section><section class="reputation" aria-labelledby="reputationTitle"><div class="eyebrow">TRAJETÓRIA QUE SUSTENTA A ENTREGA</div><h2 id="reputationTitle">Experiência de grande operação.<br>Proximidade em cada projeto.</h2><p>35 anos de trajetória na TV Globo, com atuação em operações internacionais, distribuição de conteúdo e adaptação cultural em mais de 180 países. Hoje, essa experiência se conecta à criação de soluções digitais, à inteligência artificial e aos negócios imobiliários.</p><div class="proof-grid"><div><strong>35 anos</strong><span>de trajetória na TV Globo</span></div><div><strong>180+ países</strong><span>alcance das operações internacionais</span></div><div><strong>90 pessoas</strong><span>sob liderança direta</span></div><div><strong>500+ profissionais</strong><span>em coordenação indireta</span></div></div><div class="credentials"><span>MBA · Ibmec</span><span>MBA · UFRJ</span><span>Especialização · PUC</span><span>Docência universitária</span><span>CRECI-RJ 105921</span></div><a class="arrow" href="https://www.linkedin.com/in/augusto-seixas2020" target="_blank" rel="noopener noreferrer">Conheça minha formação e trajetória no LinkedIn ↗</a></section><div class="sectionhead"><h2>Como posso ajudar?</h2><span class="small">Conheça minhas frentes de atuação</span></div>
+<section class="grid" aria-label="Serviços"><a class="card" href="https://augustoseixascorretor.com.br/" target="_blank" rel="noopener noreferrer"><span class="number">01 / IMÓVEIS</span><h3>Seu próximo endereço.</h3><p>Compra, venda, locação e captação de imóveis em Niterói, Região Oceânica e Maricá.</p><span class="arrow">Conhecer imóveis e oportunidades ↗</span></a>
+<a class="card" href="https://hero.ia.br/Hub-Hero/" target="_blank" rel="noopener noreferrer"><span class="number">02 / HERO.IA</span><h3>Mais inteligência na operação.</h3><p>IA generativa e automação aplicadas ao atendimento, à produtividade e aos processos comerciais.</p><span class="arrow">Explorar o ecossistema HERO ↗</span></a>
+<a class="card" href="https://hero.ia.br/Hero-3D-Pint-Ideias/" target="_blank" rel="noopener noreferrer"><span class="number">03 / HERO.3D</span><h3>Ideias que ganham forma.</h3><p>Criação, projetos e impressão 3D. Soluções para transformar uma ideia em algo concreto.</p><span class="arrow">Conhecer a 3D Print Ideias ↗</span></a>
+<a class="card" href="https://hero.ia.br/informatica/" target="_blank" rel="noopener noreferrer"><span class="number">04 / DESENVOLVIMENTO</span><h3>Tecnologia com propósito.</h3><p>Sites, aplicativos web, sistemas e integrações para simplificar processos e apoiar negócios.</p><span class="arrow">Ver soluções digitais ↗</span></a></section>
+<section class="utility" aria-label="Avaliação e pagamento"><article><div class="stars" aria-hidden="true">☆☆☆☆☆</div><h3>Como foi sua experiência?</h3><p>Sua opinião ajuda outras pessoas a conhecerem meu trabalho. Compartilhe sua avaliação no Google.</p><a class="btn" id="googleReview" href="https://maps.app.goo.gl/xYLNa7B3dDz9VsC76?g_st=ic" target="_blank" rel="noopener noreferrer">Meu perfil e avaliações no Google ↗</a><button class="btn" id="reviewPending" hidden disabled>Link de avaliação em configuração</button></article><article><div class="eyebrow">Pagamento • Pix</div><h3>Copie minha chave CNPJ</h3><span class="key" id="pixLabel">37.951.922/0001-94</span><p>Depois de colar no aplicativo do banco, confira o favorecido e o valor antes de confirmar.</p><button class="btn" id="copyPix">Copiar chave Pix <span>◇</span></button></article></section>
+<section class="systems" aria-labelledby="systemsTitle"><div class="sectionhead"><div><div class="eyebrow">PROJETOS, SISTEMAS E SOLUÇÕES</div><h2 id="systemsTitle">Da ideia à operação.</h2></div><a class="arrow" href="https://hero.ia.br/Hub-Hero/" target="_blank" rel="noopener noreferrer">Abrir Hub HERO ↗</a></div><p class="lead">Um portfólio que reúne IA, software, automação e engenharia. Acesse cada solução pelo seu endereço no ecossistema HERO.</p><div class="systems-grid"><a class="system-card" href="https://hero.ia.br/herofamilyos/" target="_blank" rel="noopener noreferrer"><img src="assets/hero_familyos.webp" alt="HERO FamilyOS" loading="lazy"><div><h3>HERO FamilyOS</h3><p>Inteligência e organização para conectar a rotina, os cuidados e a vida em família.</p><span class="arrow">Conhecer solução ↗</span></div></a><a class="system-card" href="http://hero.ia.br/heroia/" target="_blank" rel="noopener noreferrer"><img src="assets/hero-copilot.webp" alt="HERO.IA Hotpage Sale" loading="lazy"><div><h3>HERO.IA Hotpage Sale</h3><p>Apresentação comercial da inteligência que acelera atendimento, relacionamento e vendas.</p><span class="arrow">Conhecer solução ↗</span></div></a><a class="system-card" href="http://hero.ia.br/HERO.IA/" target="_blank" rel="noopener noreferrer"><img src="assets/hero-ecosystem-mls.webp" alt="HERO.IA Institucional" loading="lazy"><div><h3>HERO.IA Institucional</h3><p>Visão, posicionamento e capacidades que sustentam o ecossistema de soluções HERO.IA.</p><span class="arrow">Conhecer solução ↗</span></div></a><a class="system-card" href="http://hero.ia.br/hp_business/" target="_blank" rel="noopener noreferrer"><img src="assets/hero-campaigns.webp" alt="HERO.IA White Label" loading="lazy"><div><h3>HERO.IA White Label</h3><p>Tecnologia HERO.IA adaptada à marca, operação e estratégia de cada empresa.</p><span class="arrow">Conhecer solução ↗</span></div></a><a class="system-card" href="http://hero.ia.br/heroia-installer/" target="_blank" rel="noopener noreferrer"><img src="assets/hero-ia.webp" alt="HERO.IA Installer" loading="lazy"><div><h3>HERO.IA Installer</h3><p>Ambiente de instalação para colocar os recursos HERO.IA em operação com agilidade.</p><span class="arrow">Conhecer solução ↗</span></div></a><a class="system-card" href="https://hero.ia.br/hero-bot/" target="_blank" rel="noopener noreferrer"><img src="assets/hero-bot-states.webp" alt="HERO.Bot" loading="lazy"><div><h3>HERO.Bot</h3><p>Inteligência conectada a um dispositivo físico com ESP32-S3, display e estrutura 3D.</p><span class="arrow">Conhecer solução ↗</span></div></a><a class="system-card" href="http://hero.ia.br/prospect-leads/" target="_blank" rel="noopener noreferrer"><img src="assets/hero-maps.webp" alt="Prospect Leads on Map" loading="lazy"><div><h3>Prospect Leads on Map</h3><p>Prospecção visual e inteligência geográfica para encontrar oportunidades em mapas.</p><span class="arrow">Conhecer solução ↗</span></div></a><a class="system-card" href="http://hero.ia.br/hero-os/trainer.jpg" target="_blank" rel="noopener noreferrer"><img src="assets/hero-trainer.webp" alt="HERO.IA Trainer" loading="lazy"><div><h3>HERO.IA Trainer</h3><p>Inteligência aplicada ao planejamento e acompanhamento de uma rotina de treinamento.</p><span class="arrow">Conhecer solução ↗</span></div></a><a class="system-card" href="https://hero.ia.br/Hero-3D-Pint-Ideias/" target="_blank" rel="noopener noreferrer"><img src="assets/hero-3d.webp" alt="HERO 3D Print Ideias" loading="lazy"><div><h3>HERO 3D Print Ideias</h3><p>Modelagem, impressão 3D e prototipagem para transformar conceitos em objetos reais.</p><span class="arrow">Conhecer solução ↗</span></div></a><a class="system-card" href="https://hero.ia.br/informatica/" target="_blank" rel="noopener noreferrer"><img src="assets/hero-desenvolve.webp" alt="Novos Sistemas" loading="lazy"><div><h3>Novos Sistemas</h3><p>Desenvolvimento de soluções digitais, IA, automação e tecnologia sob medida.</p><span class="arrow">Conhecer solução ↗</span></div></a><article class="system-card development"><div><span class="eyebrow">EM DESENVOLVIMENTO</span><h3>MCU Calculadora</h3><p>Ferramenta de cálculo e apoio a projetos com microcontroladores.</p></div></article></div></section><section class="robot-proof"><img src="assets/hero-bot-photo.webp" alt="Protótipo HERO.Bot apresentado no Hub HERO" loading="lazy"><div><div class="eyebrow">ENGENHARIA QUE GANHA FORMA</div><h2>HERO.Bot.<br>Software encontra hardware.</h2><p>ESP32-S3, conectividade Wi-Fi, display e estrutura impressa em 3D. Um projeto que integra firmware, interface e fabricação digital.</p><a class="btn gold" href="https://hero.ia.br/hero-bot/" target="_blank" rel="noopener noreferrer">Conhecer o HERO.Bot ↗</a></div></section><section class="about"><div><div class="eyebrow">Por trás das soluções</div><h2 style="margin-top:12px">Visão de negócio.<br>Execução com tecnologia.</h2></div><div><p>Sou executivo de estratégia e transformação digital, com mais de 30 anos de experiência. Minha atuação conecta tecnologia aplicada e operações comerciais para reduzir fricção, aumentar produtividade e estruturar negócios.</p><p>À frente da HERO.IA, desenvolvo soluções com inteligência artificial. Este espaço reúne também meu trabalho com imóveis, desenvolvimento e impressão 3D.</p><a class="arrow" href="https://www.linkedin.com/in/augusto-seixas2020" target="_blank" rel="noopener noreferrer">Minha trajetória completa no LinkedIn ↗</a></div></section>
+<nav class="social" aria-label="Redes e contato"><a href="https://www.instagram.com/augustoseixas_corretorimoveis" target="_blank" rel="noopener noreferrer">Instagram · Imóveis ↗</a><a href="https://www.instagram.com/hero.ia.br/" target="_blank" rel="noopener noreferrer">Instagram · HERO.IA ↗</a><a href="https://www.instagram.com/3dprintideias/" target="_blank" rel="noopener noreferrer">Instagram · 3D ↗</a><a href="https://github.com/AugustoSeixasCorretorAvaliador" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="mailto:augustosseixas@gmail.com">E-mail ↗</a></nav>
+<div class="tools"><button id="share">Compartilhar cartão ↗</button><button id="showQr">Meu QR Code ▦</button><button id="print">Imprimir placa ↗</button></div>
+<details class="manual"><summary>Orientações para preparar a placa e o NFC</summary><p>O QR Code incluído abre https://hero.ia.br/Linktree/. Grave esse mesmo endereço na etiqueta NFC como registro de URL (NDEF). O HTML não programa a etiqueta NFC. Para exibir este novo visual nesse endereço, publique este arquivo como index.html na pasta Linktree do seu site. Antes de fabricar a placa, teste o QR impresso com dois celulares e teste a etiqueta NFC. O botão Google abre meu perfil e suas avaliações. Para abrir diretamente o formulário de avaliação, substitua googleReviewUrl pelo link oficial de solicitação de avaliações do Perfil da Empresa no Google.</p></details>
+<footer class="footer">© 2026 Augusto Seixas · CRECI-RJ 105921<br>HERO.IA · HERO.3D · Negócios e soluções digitais</footer><section class="directory" aria-labelledby="directoryTitle"><div class="eyebrow">TODOS OS ACESSOS</div><h2 id="directoryTitle">Seu diretório completo.</h2><p class="lead">Serviços, plataformas, redes e contatos por área de atuação.</p>  <!-- IMÓVEIS -->
   <div class="section open" id="sec-imoveis">
-    <div class="section-header imovel-header" onclick="toggle('sec-imoveis')">
+    <div class="section-header imovel-header">
       <span class="section-icon">🏠</span>
       <span class="section-title">1. Imobiliário Premium</span>
       <span class="chevron">▼</span>
@@ -515,7 +81,7 @@
 
   <!-- HERO.IA -->
   <div class="section open" id="sec-hero">
-    <div class="section-header hero-header" onclick="toggle('sec-hero')">
+    <div class="section-header hero-header">
       <span class="section-icon">🤖</span>
       <span class="section-title">2. HERO.IA.BR</span>
       <span class="chevron">▼</span>
@@ -589,7 +155,7 @@
         </div>
         <span class="link-arrow">→</span>
       </a>
-      <a class="link-item" href="#" rel="noopener" onclick="return promptHeroAdmin(event, this)">
+      <a class="link-item" href="#" onclick="event.preventDefault()">
         <span class="link-emoji">🏷️</span>
         <div class="link-text">
           <div class="link-label">HERO App Admin</div>
@@ -602,7 +168,7 @@
 
   <!-- HERO.3D -->
   <div class="section open" id="sec-3d">
-    <div class="section-header print-header" onclick="toggle('sec-3d')">
+    <div class="section-header print-header">
       <span class="section-icon">🖨️</span>
       <span class="section-title">3. HERO.3D / 3D Print Ideias</span>
       <span class="chevron">▼</span>
@@ -640,7 +206,7 @@
 
   <!-- REDES SOCIAIS -->
   <div class="section open" id="sec-social">
-    <div class="section-header social-header" onclick="toggle('sec-social')">
+    <div class="section-header social-header">
       <span class="section-icon">🌐</span>
       <span class="section-title">4. Informática & Redes Sociais </span>
       <span class="chevron">▼</span>
@@ -759,29 +325,20 @@
     </div>
   </div>
 
-  <footer class="footer">
-    <p>© 2026 <strong>Augusto Seixas</strong> · Niterói, RJ</p>
-    <p style="margin-top:6px">CRECI-RJ 105921 · HERO.IA · HERO.3D · Business & Negócios Express</p>
-  </footer>
-
-</div>
-
+</section></main>
+<a class="float" href="https://wa.me/5521985653880">Falar com Augusto ↗</a><div class="toast" role="status" aria-live="polite" id="status"></div>
+<dialog id="qrDialog"><h2>Vamos nos conectar.</h2><p>Abra a câmera do celular e aponte para o QR Code.</p>
+<svg width="37mm" height="37mm" version="1.1" viewBox="0 0 37 37" xmlns="http://www.w3.org/2000/svg"><path d="M4,4H5V5H4zM5,4H6V5H5zM6,4H7V5H6zM7,4H8V5H7zM8,4H9V5H8zM9,4H10V5H9zM10,4H11V5H10zM12,4H13V5H12zM14,4H15V5H14zM21,4H22V5H21zM22,4H23V5H22zM26,4H27V5H26zM27,4H28V5H27zM28,4H29V5H28zM29,4H30V5H29zM30,4H31V5H30zM31,4H32V5H31zM32,4H33V5H32zM4,5H5V6H4zM10,5H11V6H10zM13,5H14V6H13zM14,5H15V6H14zM20,5H21V6H20zM21,5H22V6H21zM22,5H23V6H22zM23,5H24V6H23zM24,5H25V6H24zM26,5H27V6H26zM32,5H33V6H32zM4,6H5V7H4zM6,6H7V7H6zM7,6H8V7H7zM8,6H9V7H8zM10,6H11V7H10zM13,6H14V7H13zM17,6H18V7H17zM19,6H20V7H19zM20,6H21V7H20zM21,6H22V7H21zM22,6H23V7H22zM23,6H24V7H23zM24,6H25V7H24zM26,6H27V7H26zM28,6H29V7H28zM29,6H30V7H29zM30,6H31V7H30zM32,6H33V7H32zM4,7H5V8H4zM6,7H7V8H6zM7,7H8V8H7zM8,7H9V8H8zM10,7H11V8H10zM12,7H13V8H12zM13,7H14V8H13zM14,7H15V8H14zM15,7H16V8H15zM16,7H17V8H16zM18,7H19V8H18zM19,7H20V8H19zM20,7H21V8H20zM22,7H23V8H22zM23,7H24V8H23zM26,7H27V8H26zM28,7H29V8H28zM29,7H30V8H29zM30,7H31V8H30zM32,7H33V8H32zM4,8H5V9H4zM6,8H7V9H6zM7,8H8V9H7zM8,8H9V9H8zM10,8H11V9H10zM12,8H13V9H12zM13,8H14V9H13zM14,8H15V9H14zM15,8H16V9H15zM17,8H18V9H17zM18,8H19V9H18zM20,8H21V9H20zM26,8H27V9H26zM28,8H29V9H28zM29,8H30V9H29zM30,8H31V9H30zM32,8H33V9H32zM4,9H5V10H4zM10,9H11V10H10zM12,9H13V10H12zM13,9H14V10H13zM15,9H16V10H15zM17,9H18V10H17zM18,9H19V10H18zM19,9H20V10H19zM23,9H24V10H23zM26,9H27V10H26zM32,9H33V10H32zM4,10H5V11H4zM5,10H6V11H5zM6,10H7V11H6zM7,10H8V11H7zM8,10H9V11H8zM9,10H10V11H9zM10,10H11V11H10zM12,10H13V11H12zM14,10H15V11H14zM16,10H17V11H16zM18,10H19V11H18zM20,10H21V11H20zM22,10H23V11H22zM24,10H25V11H24zM26,10H27V11H26zM27,10H28V11H27zM28,10H29V11H28zM29,10H30V11H29zM30,10H31V11H30zM31,10H32V11H31zM32,10H33V11H32zM12,11H13V12H12zM13,11H14V12H13zM18,11H19V12H18zM21,11H22V12H21zM4,12H5V13H4zM8,12H9V13H8zM10,12H11V13H10zM11,12H12V13H11zM12,12H13V13H12zM13,12H14V13H13zM16,12H17V13H16zM17,12H18V13H17zM18,12H19V13H18zM19,12H20V13H19zM20,12H21V13H20zM21,12H22V13H21zM24,12H25V13H24zM25,12H26V13H25zM26,12H27V13H26zM27,12H28V13H27zM28,12H29V13H28zM29,12H30V13H29zM32,12H33V13H32zM4,13H5V14H4zM6,13H7V14H6zM7,13H8V14H7zM9,13H10V14H9zM14,13H15V14H14zM26,13H27V14H26zM28,13H29V14H28zM29,13H30V14H29zM30,13H31V14H30zM31,13H32V14H31zM32,13H33V14H32zM7,14H8V15H7zM8,14H9V15H8zM9,14H10V15H9zM10,14H11V15H10zM12,14H13V15H12zM16,14H17V15H16zM17,14H18V15H17zM18,14H19V15H18zM19,14H20V15H19zM28,14H29V15H28zM32,14H33V15H32zM5,15H6V16H5zM11,15H12V16H11zM13,15H14V16H13zM14,15H15V16H14zM16,15H17V16H16zM17,15H18V16H17zM19,15H20V16H19zM20,15H21V16H20zM21,15H22V16H21zM24,15H25V16H24zM25,15H26V16H25zM28,15H29V16H28zM29,15H30V16H29zM31,15H32V16H31zM32,15H33V16H32zM4,16H5V17H4zM5,16H6V17H5zM7,16H8V17H7zM10,16H11V17H10zM14,16H15V17H14zM17,16H18V17H17zM21,16H22V17H21zM24,16H25V17H24zM25,16H26V17H25zM31,16H32V17H31zM5,17H6V18H5zM8,17H9V18H8zM12,17H13V18H12zM16,17H17V18H16zM17,17H18V18H17zM18,17H19V18H18zM20,17H21V18H20zM22,17H23V18H22zM23,17H24V18H23zM26,17H27V18H26zM27,17H28V18H27zM28,17H29V18H28zM29,17H30V18H29zM30,17H31V18H30zM31,17H32V18H31zM32,17H33V18H32zM5,18H6V19H5zM9,18H10V19H9zM10,18H11V19H10zM11,18H12V19H11zM13,18H14V19H13zM20,18H21V19H20zM21,18H22V19H21zM22,18H23V19H22zM24,18H25V19H24zM25,18H26V19H25zM27,18H28V19H27zM28,18H29V19H28zM29,18H30V19H29zM30,18H31V19H30zM32,18H33V19H32zM4,19H5V20H4zM5,19H6V20H5zM6,19H7V20H6zM9,19H10V20H9zM11,19H12V20H11zM14,19H15V20H14zM15,19H16V20H15zM18,19H19V20H18zM21,19H22V20H21zM22,19H23V20H22zM23,19H24V20H23zM24,19H25V20H24zM26,19H27V20H26zM27,19H28V20H27zM31,19H32V20H31zM32,19H33V20H32zM7,20H8V21H7zM8,20H9V21H8zM10,20H11V21H10zM11,20H12V21H11zM12,20H13V21H12zM15,20H16V21H15zM16,20H17V21H16zM17,20H18V21H17zM18,20H19V21H18zM19,20H20V21H19zM20,20H21V21H20zM21,20H22V21H21zM24,20H25V21H24zM25,20H26V21H25zM27,20H28V21H27zM31,20H32V21H31zM4,21H5V22H4zM5,21H6V22H5zM6,21H7V22H6zM8,21H9V22H8zM11,21H12V22H11zM12,21H13V22H12zM13,21H14V22H13zM14,21H15V22H14zM15,21H16V22H15zM16,21H17V22H16zM22,21H23V22H22zM24,21H25V22H24zM26,21H27V22H26zM27,21H28V22H27zM28,21H29V22H28zM29,21H30V22H29zM31,21H32V22H31zM32,21H33V22H32zM8,22H9V23H8zM9,22H10V23H9zM10,22H11V23H10zM11,22H12V23H11zM12,22H13V23H12zM14,22H15V23H14zM17,22H18V23H17zM18,22H19V23H18zM19,22H20V23H19zM21,22H22V23H21zM22,22H23V23H22zM25,22H26V23H25zM26,22H27V23H26zM30,22H31V23H30zM32,22H33V23H32zM6,23H7V24H6zM7,23H8V24H7zM8,23H9V24H8zM9,23H10V24H9zM15,23H16V24H15zM17,23H18V24H17zM19,23H20V24H19zM20,23H21V24H20zM21,23H22V24H21zM22,23H23V24H22zM23,23H24V24H23zM26,23H27V24H26zM31,23H32V24H31zM32,23H33V24H32zM4,24H5V25H4zM5,24H6V25H5zM6,24H7V25H6zM10,24H11V25H10zM12,24H13V25H12zM14,24H15V25H14zM15,24H16V25H15zM17,24H18V25H17zM21,24H22V25H21zM22,24H23V25H22zM23,24H24V25H23zM24,24H25V25H24zM25,24H26V25H25zM26,24H27V25H26zM27,24H28V25H27zM28,24H29V25H28zM29,24H30V25H29zM32,24H33V25H32zM12,25H13V26H12zM13,25H14V26H13zM15,25H16V26H15zM17,25H18V26H17zM18,25H19V26H18zM20,25H21V26H20zM21,25H22V26H21zM22,25H23V26H22zM24,25H25V26H24zM28,25H29V26H28zM32,25H33V26H32zM4,26H5V27H4zM5,26H6V27H5zM6,26H7V27H6zM7,26H8V27H7zM8,26H9V27H8zM9,26H10V27H9zM10,26H11V27H10zM12,26H13V27H12zM14,26H15V27H14zM15,26H16V27H15zM16,26H17V27H16zM20,26H21V27H20zM22,26H23V27H22zM23,26H24V27H23zM24,26H25V27H24zM26,26H27V27H26zM28,26H29V27H28zM29,26H30V27H29zM30,26H31V27H30zM32,26H33V27H32zM4,27H5V28H4zM10,27H11V28H10zM18,27H19V28H18zM21,27H22V28H21zM22,27H23V28H22zM23,27H24V28H23zM24,27H25V28H24zM28,27H29V28H28zM31,27H32V28H31zM32,27H33V28H32zM4,28H5V29H4zM6,28H7V29H6zM7,28H8V29H7zM8,28H9V29H8zM10,28H11V29H10zM12,28H13V29H12zM13,28H14V29H13zM17,28H18V29H17zM18,28H19V29H18zM19,28H20V29H19zM20,28H21V29H20zM22,28H23V29H22zM23,28H24V29H23zM24,28H25V29H24zM25,28H26V29H25zM26,28H27V29H26zM27,28H28V29H27zM28,28H29V29H28zM29,28H30V29H29zM31,28H32V29H31zM32,28H33V29H32zM4,29H5V30H4zM6,29H7V30H6zM7,29H8V30H7zM8,29H9V30H8zM10,29H11V30H10zM13,29H14V30H13zM15,29H16V30H15zM17,29H18V30H17zM21,29H22V30H21zM22,29H23V30H22zM23,29H24V30H23zM31,29H32V30H31zM4,30H5V31H4zM6,30H7V31H6zM7,30H8V31H7zM8,30H9V31H8zM10,30H11V31H10zM13,30H14V31H13zM14,30H15V31H14zM16,30H17V31H16zM19,30H20V31H19zM22,30H23V31H22zM25,30H26V31H25zM29,30H30V31H29zM30,30H31V31H30zM31,30H32V31H31zM32,30H33V31H32zM4,31H5V32H4zM10,31H11V32H10zM15,31H16V32H15zM16,31H17V32H16zM17,31H18V32H17zM18,31H19V32H18zM19,31H20V32H19zM20,31H21V32H20zM24,31H25V32H24zM27,31H28V32H27zM29,31H30V32H29zM31,31H32V32H31zM32,31H33V32H32zM4,32H5V33H4zM5,32H6V33H5zM6,32H7V33H6zM7,32H8V33H7zM8,32H9V33H8zM9,32H10V33H9zM10,32H11V33H10zM12,32H13V33H12zM13,32H14V33H13zM14,32H15V33H14zM16,32H17V33H16zM24,32H25V33H24zM26,32H27V33H26zM29,32H30V33H29zM31,32H32V33H31z" fill="#000000" fill-opacity="1" fill-rule="nonzero" stroke="none"/></svg><p class="small">hero.ia.br/Linktree/</p><button class="btn" id="closeQr">Fechar ×</button></dialog>
+<section id="plate"><div class="eyebrow">Negócios • Imóveis • Tecnologia</div><h1>Augusto Seixas</h1><p>Vamos nos conectar?</p>
+<svg width="37mm" height="37mm" version="1.1" viewBox="0 0 37 37" xmlns="http://www.w3.org/2000/svg"><path d="M4,4H5V5H4zM5,4H6V5H5zM6,4H7V5H6zM7,4H8V5H7zM8,4H9V5H8zM9,4H10V5H9zM10,4H11V5H10zM12,4H13V5H12zM14,4H15V5H14zM21,4H22V5H21zM22,4H23V5H22zM26,4H27V5H26zM27,4H28V5H27zM28,4H29V5H28zM29,4H30V5H29zM30,4H31V5H30zM31,4H32V5H31zM32,4H33V5H32zM4,5H5V6H4zM10,5H11V6H10zM13,5H14V6H13zM14,5H15V6H14zM20,5H21V6H20zM21,5H22V6H21zM22,5H23V6H22zM23,5H24V6H23zM24,5H25V6H24zM26,5H27V6H26zM32,5H33V6H32zM4,6H5V7H4zM6,6H7V7H6zM7,6H8V7H7zM8,6H9V7H8zM10,6H11V7H10zM13,6H14V7H13zM17,6H18V7H17zM19,6H20V7H19zM20,6H21V7H20zM21,6H22V7H21zM22,6H23V7H22zM23,6H24V7H23zM24,6H25V7H24zM26,6H27V7H26zM28,6H29V7H28zM29,6H30V7H29zM30,6H31V7H30zM32,6H33V7H32zM4,7H5V8H4zM6,7H7V8H6zM7,7H8V8H7zM8,7H9V8H8zM10,7H11V8H10zM12,7H13V8H12zM13,7H14V8H13zM14,7H15V8H14zM15,7H16V8H15zM16,7H17V8H16zM18,7H19V8H18zM19,7H20V8H19zM20,7H21V8H20zM22,7H23V8H22zM23,7H24V8H23zM26,7H27V8H26zM28,7H29V8H28zM29,7H30V8H29zM30,7H31V8H30zM32,7H33V8H32zM4,8H5V9H4zM6,8H7V9H6zM7,8H8V9H7zM8,8H9V9H8zM10,8H11V9H10zM12,8H13V9H12zM13,8H14V9H13zM14,8H15V9H14zM15,8H16V9H15zM17,8H18V9H17zM18,8H19V9H18zM20,8H21V9H20zM26,8H27V9H26zM28,8H29V9H28zM29,8H30V9H29zM30,8H31V9H30zM32,8H33V9H32zM4,9H5V10H4zM10,9H11V10H10zM12,9H13V10H12zM13,9H14V10H13zM15,9H16V10H15zM17,9H18V10H17zM18,9H19V10H18zM19,9H20V10H19zM23,9H24V10H23zM26,9H27V10H26zM32,9H33V10H32zM4,10H5V11H4zM5,10H6V11H5zM6,10H7V11H6zM7,10H8V11H7zM8,10H9V11H8zM9,10H10V11H9zM10,10H11V11H10zM12,10H13V11H12zM14,10H15V11H14zM16,10H17V11H16zM18,10H19V11H18zM20,10H21V11H20zM22,10H23V11H22zM24,10H25V11H24zM26,10H27V11H26zM27,10H28V11H27zM28,10H29V11H28zM29,10H30V11H29zM30,10H31V11H30zM31,10H32V11H31zM32,10H33V11H32zM12,11H13V12H12zM13,11H14V12H13zM18,11H19V12H18zM21,11H22V12H21zM4,12H5V13H4zM8,12H9V13H8zM10,12H11V13H10zM11,12H12V13H11zM12,12H13V13H12zM13,12H14V13H13zM16,12H17V13H16zM17,12H18V13H17zM18,12H19V13H18zM19,12H20V13H19zM20,12H21V13H20zM21,12H22V13H21zM24,12H25V13H24zM25,12H26V13H25zM26,12H27V13H26zM27,12H28V13H27zM28,12H29V13H28zM29,12H30V13H29zM32,12H33V13H32zM4,13H5V14H4zM6,13H7V14H6zM7,13H8V14H7zM9,13H10V14H9zM14,13H15V14H14zM26,13H27V14H26zM28,13H29V14H28zM29,13H30V14H29zM30,13H31V14H30zM31,13H32V14H31zM32,13H33V14H32zM7,14H8V15H7zM8,14H9V15H8zM9,14H10V15H9zM10,14H11V15H10zM12,14H13V15H12zM16,14H17V15H16zM17,14H18V15H17zM18,14H19V15H18zM19,14H20V15H19zM28,14H29V15H28zM32,14H33V15H32zM5,15H6V16H5zM11,15H12V16H11zM13,15H14V16H13zM14,15H15V16H14zM16,15H17V16H16zM17,15H18V16H17zM19,15H20V16H19zM20,15H21V16H20zM21,15H22V16H21zM24,15H25V16H24zM25,15H26V16H25zM28,15H29V16H28zM29,15H30V16H29zM31,15H32V16H31zM32,15H33V16H32zM4,16H5V17H4zM5,16H6V17H5zM7,16H8V17H7zM10,16H11V17H10zM14,16H15V17H14zM17,16H18V17H17zM21,16H22V17H21zM24,16H25V17H24zM25,16H26V17H25zM31,16H32V17H31zM5,17H6V18H5zM8,17H9V18H8zM12,17H13V18H12zM16,17H17V18H16zM17,17H18V18H17zM18,17H19V18H18zM20,17H21V18H20zM22,17H23V18H22zM23,17H24V18H23zM26,17H27V18H26zM27,17H28V18H27zM28,17H29V18H28zM29,17H30V18H29zM30,17H31V18H30zM31,17H32V18H31zM32,17H33V18H32zM5,18H6V19H5zM9,18H10V19H9zM10,18H11V19H10zM11,18H12V19H11zM13,18H14V19H13zM20,18H21V19H20zM21,18H22V19H21zM22,18H23V19H22zM24,18H25V19H24zM25,18H26V19H25zM27,18H28V19H27zM28,18H29V19H28zM29,18H30V19H29zM30,18H31V19H30zM32,18H33V19H32zM4,19H5V20H4zM5,19H6V20H5zM6,19H7V20H6zM9,19H10V20H9zM11,19H12V20H11zM14,19H15V20H14zM15,19H16V20H15zM18,19H19V20H18zM21,19H22V20H21zM22,19H23V20H22zM23,19H24V20H23zM24,19H25V20H24zM26,19H27V20H26zM27,19H28V20H27zM31,19H32V20H31zM32,19H33V20H32zM7,20H8V21H7zM8,20H9V21H8zM10,20H11V21H10zM11,20H12V21H11zM12,20H13V21H12zM15,20H16V21H15zM16,20H17V21H16zM17,20H18V21H17zM18,20H19V21H18zM19,20H20V21H19zM20,20H21V21H20zM21,20H22V21H21zM24,20H25V21H24zM25,20H26V21H25zM27,20H28V21H27zM31,20H32V21H31zM4,21H5V22H4zM5,21H6V22H5zM6,21H7V22H6zM8,21H9V22H8zM11,21H12V22H11zM12,21H13V22H12zM13,21H14V22H13zM14,21H15V22H14zM15,21H16V22H15zM16,21H17V22H16zM22,21H23V22H22zM24,21H25V22H24zM26,21H27V22H26zM27,21H28V22H27zM28,21H29V22H28zM29,21H30V22H29zM31,21H32V22H31zM32,21H33V22H32zM8,22H9V23H8zM9,22H10V23H9zM10,22H11V23H10zM11,22H12V23H11zM12,22H13V23H12zM14,22H15V23H14zM17,22H18V23H17zM18,22H19V23H18zM19,22H20V23H19zM21,22H22V23H21zM22,22H23V23H22zM25,22H26V23H25zM26,22H27V23H26zM30,22H31V23H30zM32,22H33V23H32zM6,23H7V24H6zM7,23H8V24H7zM8,23H9V24H8zM9,23H10V24H9zM15,23H16V24H15zM17,23H18V24H17zM19,23H20V24H19zM20,23H21V24H20zM21,23H22V24H21zM22,23H23V24H22zM23,23H24V24H23zM26,23H27V24H26zM31,23H32V24H31zM32,23H33V24H32zM4,24H5V25H4zM5,24H6V25H5zM6,24H7V25H6zM10,24H11V25H10zM12,24H13V25H12zM14,24H15V25H14zM15,24H16V25H15zM17,24H18V25H17zM21,24H22V25H21zM22,24H23V25H22zM23,24H24V25H23zM24,24H25V25H24zM25,24H26V25H25zM26,24H27V25H26zM27,24H28V25H27zM28,24H29V25H28zM29,24H30V25H29zM32,24H33V25H32zM12,25H13V26H12zM13,25H14V26H13zM15,25H16V26H15zM17,25H18V26H17zM18,25H19V26H18zM20,25H21V26H20zM21,25H22V26H21zM22,25H23V26H22zM24,25H25V26H24zM28,25H29V26H28zM32,25H33V26H32zM4,26H5V27H4zM5,26H6V27H5zM6,26H7V27H6zM7,26H8V27H7zM8,26H9V27H8zM9,26H10V27H9zM10,26H11V27H10zM12,26H13V27H12zM14,26H15V27H14zM15,26H16V27H15zM16,26H17V27H16zM20,26H21V27H20zM22,26H23V27H22zM23,26H24V27H23zM24,26H25V27H24zM26,26H27V27H26zM28,26H29V27H28zM29,26H30V27H29zM30,26H31V27H30zM32,26H33V27H32zM4,27H5V28H4zM10,27H11V28H10zM18,27H19V28H18zM21,27H22V28H21zM22,27H23V28H22zM23,27H24V28H23zM24,27H25V28H24zM28,27H29V28H28zM31,27H32V28H31zM32,27H33V28H32zM4,28H5V29H4zM6,28H7V29H6zM7,28H8V29H7zM8,28H9V29H8zM10,28H11V29H10zM12,28H13V29H12zM13,28H14V29H13zM17,28H18V29H17zM18,28H19V29H18zM19,28H20V29H19zM20,28H21V29H20zM22,28H23V29H22zM23,28H24V29H23zM24,28H25V29H24zM25,28H26V29H25zM26,28H27V29H26zM27,28H28V29H27zM28,28H29V29H28zM29,28H30V29H29zM31,28H32V29H31zM32,28H33V29H32zM4,29H5V30H4zM6,29H7V30H6zM7,29H8V30H7zM8,29H9V30H8zM10,29H11V30H10zM13,29H14V30H13zM15,29H16V30H15zM17,29H18V30H17zM21,29H22V30H21zM22,29H23V30H22zM23,29H24V30H23zM31,29H32V30H31zM4,30H5V31H4zM6,30H7V31H6zM7,30H8V31H7zM8,30H9V31H8zM10,30H11V31H10zM13,30H14V31H13zM14,30H15V31H14zM16,30H17V31H16zM19,30H20V31H19zM22,30H23V31H22zM25,30H26V31H25zM29,30H30V31H29zM30,30H31V31H30zM31,30H32V31H31zM32,30H33V31H32zM4,31H5V32H4zM10,31H11V32H10zM15,31H16V32H15zM16,31H17V32H16zM17,31H18V32H17zM18,31H19V32H18zM19,31H20V32H19zM20,31H21V32H20zM24,31H25V32H24zM27,31H28V32H27zM29,31H30V32H29zM31,31H32V32H31zM32,31H33V32H32zM4,32H5V33H4zM5,32H6V33H5zM6,32H7V33H6zM7,32H8V33H7zM8,32H9V33H8zM9,32H10V33H9zM10,32H11V33H10zM12,32H13V33H12zM13,32H14V33H13zM14,32H15V33H14zM16,32H17V33H16zM24,32H25V33H24zM26,32H27V33H26zM29,32H30V33H29zM31,32H32V33H31z" fill="#000000" fill-opacity="1" fill-rule="nonzero" stroke="none"/></svg><h3>Aponte a câmera para o QR Code</h3><p>Ou aproxime seu celular da etiqueta NFC.*</p><p>WhatsApp · Serviços · Contato · Pix</p><strong>hero.ia.br/Linktree/</strong><p class="small" style="margin-top:16px">CRECI-RJ 105921 · (21) 98565-3880<br>*Requer etiqueta NFC instalada e programada.</p></section>
 <script>
-  function promptHeroAdmin(event, link) {
-    event.preventDefault();
-    const senha = prompt('Digite a senha de acesso ao HERO App Admin');
-    if (senha === 'hero134134134') {
-      alert('Acesso validado. O backend do HERO App Admin será conectado posteriormente.');
-    } else if (senha !== null) {
-      alert('Senha incorreta.');
-    }
-    return false;
-  }
-
-  function toggle(id) {
-    const sec = document.getElementById(id);
-    sec.classList.toggle('open');
-  }
-</script>
-</body>
-</html>
+/* EDITE AQUI. Cole somente o link oficial de avaliação do seu próprio perfil Google. */
+const CONFIG={hubUrl:'https://hero.ia.br/Linktree/',pixCnpj:'37951922000194',googleReviewUrl:'https://maps.app.goo.gl/xYLNa7B3dDz9VsC76?g_st=ic'};
+const $=id=>document.getElementById(id);let timer;function status(message){$('status').textContent=message;clearTimeout(timer);timer=setTimeout(()=>{$('status').textContent=''},4500)}
+async function copy(text){try{if(!navigator.clipboard)throw Error();await navigator.clipboard.writeText(text);return true}catch(e){const el=document.createElement('textarea');el.value=text;el.style.position='fixed';el.style.opacity='0';document.body.append(el);el.select();let ok=false;try{ok=document.execCommand('copy')}catch(e){}el.remove();return ok}}
+$('copyPix').onclick=async()=>{const ok=await copy(CONFIG.pixCnpj);status(ok?'Chave Pix copiada. Confira o favorecido no banco.':'Copie a chave exibida: '+CONFIG.pixCnpj)};
+if(CONFIG.googleReviewUrl){try{const u=new URL(CONFIG.googleReviewUrl);if(u.protocol==='https:'){$('googleReview').href=u.href;$('googleReview').target='_blank';$('googleReview').rel='noopener noreferrer';$('googleReview').hidden=false;$('reviewPending').hidden=true}}catch(e){}}
+$('share').onclick=async()=>{if(navigator.share){try{await navigator.share({title:'Augusto Seixas',text:'Imóveis, tecnologia e soluções digitais.',url:CONFIG.hubUrl});return}catch(e){if(e.name==='AbortError')return}}status(await copy(CONFIG.hubUrl)?'Link do cartão copiado.':'Endereço: '+CONFIG.hubUrl)};
+$('showQr').onclick=()=>$('qrDialog').showModal();$('closeQr').onclick=()=>$('qrDialog').close();$('print').onclick=()=>window.print();
+$('saveContact').onclick=()=>{const v=['BEGIN:VCARD','VERSION:3.0','N:Seixas;Augusto;;;','FN:Augusto Seixas','TEL;TYPE=CELL:+5521985653880','EMAIL:augustosseixas@gmail.com','URL:'+CONFIG.hubUrl,'NOTE:CRECI-RJ 105921 | HERO.IA | HERO.3D','END:VCARD'].join('\r\n');const url=URL.createObjectURL(new Blob([v],{type:'text/vcard;charset=utf-8'}));const a=document.createElement('a');a.href=url;a.download='Augusto-Seixas.vcf';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),3000)};
+</script></body></html>
