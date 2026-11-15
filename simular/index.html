@@ -61,6 +61,9 @@
     .result-body{padding:8px 27px 19px}
     .rows>div{display:flex;justify-content:space-between;align-items:baseline;gap:9px;border-bottom:1px solid var(--line);padding:10px 0;font-size:.88rem}
     .rows dt{color:var(--muted)}
+    .rows dd,.reserve dd{flex-shrink:0;white-space:nowrap}
+    .result-rate{margin:5px 0 0;color:#e1eee3;font-size:.82rem;font-weight:650}
+    .payment-note{margin-top:9px}
     dd{font-weight:760;text-align:right;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
     .reserve{display:flex;justify-content:space-between;align-items:center;gap:10px;background:#edf4de;border-radius:10px;padding:10px 12px;margin-top:12px;font-size:.9rem;font-weight:750}
     .reserve small{display:block;color:#43594a;font-size:.72rem;font-weight:500}
@@ -176,15 +179,18 @@
         <div class="hero">
           <h2 id="resultado" tabindex="-1">Valor estimado do imóvel</h2>
           <strong id="imovel">—</strong>
+          <p class="result-rate" id="taxaResultado" hidden></p>
           <div class="bar" aria-hidden="true"><span id="barra"></span><span id="barraEntrada"></span></div>
           <div class="legend" id="legenda"><span id="legendaFinanciamento">70% financiamento</span><span id="legendaEntrada">30% entrada</span></div>
         </div>
         <div class="result-body">
           <dl class="rows">
-            <div><dt>Parcela mensal estimada</dt><dd id="parcela">—</dd></div>
+            <div><dt>Parcela Price</dt><dd id="parcela">—</dd></div>
+            <div><dt>Primeira parcela SAC</dt><dd id="parcelaSac">—</dd></div>
             <div><dt>Financiamento estimado</dt><dd id="credito">—</dd></div>
             <div><dt>Entrada estimada</dt><dd id="entrada">—</dd></div>
-            <div id="linhaRenda" hidden><dt>Renda mínima estimada</dt><dd id="minimumIncome"></dd></div>
+            <div id="linhaRenda" hidden><dt>Renda mínima estimada · Price</dt><dd id="minimumIncome"></dd></div>
+            <div id="linhaRendaSac" hidden><dt>Renda mínima estimada · SAC</dt><dd id="minimumSacIncome"></dd></div>
             <div id="linhaSubsidio" hidden><dt>Subsídio usado na simulação</dt><dd id="subsidyApplied"></dd></div>
             <div id="linhaFgts" hidden><dt>FGTS usado na entrada</dt><dd id="fgtsApplied"></dd></div>
             <div id="linhaReservas" hidden><dt>Reservas próprias usadas na entrada</dt><dd id="savingsApplied"></dd></div>
@@ -192,6 +198,7 @@
             <div id="linhaEntradaPropria" hidden><dt>Entrada com recursos próprios</dt><dd id="cashEntry"></dd></div>
             <div><dt>Custos de documentação</dt><dd id="custos">—</dd></div>
           </dl>
+          <p class="field-help payment-note">Price e SAC usam o mesmo valor financiado, prazo e taxa. As parcelas mostram amortização e juros, sem TR, seguros ou tarifas.</p>
           <dl class="reserve"><dt>Reserva inicial <small id="reservaLegenda">Entrada + documentação</small></dt><dd id="reserva">—</dd></dl>
           <p class="field-help" id="reservaAdicional" hidden></p>
           <div class="qualification" id="enquadramento">
@@ -218,14 +225,14 @@
         <li><strong>No associativo</strong> · o subsídio estimado e o FGTS abatem a entrada até o valor necessário. A documentação aparece em separado.</li>
       </ol>
       <p>O subsídio usa o art. 53 da IN MCID nº 48/2022 em um cenário de Niterói (RJ), com apartamento novo de 50 m², juros de referência do FGTS pela renda e condição de cotista e teto municipal de referência de R$ 275 mil quando em branco. A estimativa depende da renda informada. Para outras cidades ou empreendimentos, confirme com o agente financeiro.</p>
-      <p class="field-help">A parcela Price usa a taxa anual efetiva convertida em mensal. O cálculo exclui TR, seguros, tarifas e CET.</p>
+      <p class="field-help">A prestação alvo e a capacidade por renda usam Price como base. No SAC, a primeira parcela soma a amortização constante aos juros sobre o saldo inicial. O cálculo exclui TR, seguros, tarifas e CET.</p>
     </details>
     <p class="note">A indicação do MCMV urbano usa renda bruta e preço. A cota inicial editável de 70% toma como referência o SBPE Price da CAIXA. As taxas automáticas do MCMV têm como referência o Sudeste. No Classe Média, imóveis usados no Sul e Sudeste têm cota máxima de 60%. O banco confirma a análise de crédito, a cota, o FGTS, o subsídio e as condições do imóvel.</p>
     <p class="note"><a href="https://www.gov.br/cidades/pt-br/acesso-a-informacao/acoes-e-programas/habitacao/programa-minha-casa-minha-vida/mcmv-fgts" target="_blank" rel="noopener noreferrer">Limites oficiais do MCMV</a> · <a href="https://sintse.tse.jus.br/documentos/2026/Abr/6/para-conhecimento-geral/portaria-no-333-de-30-de-marco-de-2026-dispoe-sobre-a-atualizacao-anual-dos-limites-de-renda-bruta" target="_blank" rel="noopener noreferrer">Portaria MCID nº 333/2026</a> · <a href="https://www.gov.br/cidades/pt-br/acesso-a-informacao/institucional/base-juridica/instrucoes-normativas/ate-2022/IN_48_de_19.12.22__compilada_em_09.04.2026_.pdf" target="_blank" rel="noopener noreferrer">Regra do subsídio</a> · <a href="https://caixanoticias.caixa.gov.br/Paginas/Not%C3%ADcias/2025/12-DEZEMBRO/CAIXA-volta-a-permitir-mais-de-um-financiamento--imobiliario-pelo-SBPE.aspx" target="_blank" rel="noopener noreferrer">Taxa SBPE anunciada pela CAIXA</a> · <a href="https://simuladorhabitacao.caixa.gov.br/" target="_blank" rel="noopener noreferrer">Simulador oficial da CAIXA</a></p>
     <noscript><p class="note">Ative o JavaScript para editar a simulação.</p></noscript>
   </main>
   <footer class="wrap">Augusto Seixas · CRECI-RJ 105921</footer>
-  <script src="housing-estimate.js?v=3"></script>
-  <script src="simulator.js?v=3"></script>
+  <script src="housing-estimate.js?v=4"></script>
+  <script src="simulator.js?v=4"></script>
 </body>
 </html>

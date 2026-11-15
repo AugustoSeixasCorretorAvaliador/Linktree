@@ -6,6 +6,7 @@ const form = get('simulacao');
 const tabs = [...document.querySelectorAll('[role="tab"]')];
 const formatter = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' });
 const money = n => formatter.format(n);
+const monthlyPercent = new Intl.NumberFormat('pt-BR', { minimumFractionDigits: 4, maximumFractionDigits: 4 });
 const decimal = new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 2 });
 const fieldsByMode = {
   income: 'renda', property: 'preco', payment: 'alvo', associative: 'precoAssociativo'
@@ -27,10 +28,12 @@ const inputRules = {
 };
 const resultFields = {
   property: ['imovel', 'Valor do imóvel'],
-  monthlyPayment: ['parcela', 'Parcela mensal estimada'],
+  monthlyPayment: ['parcela', 'Parcela Price'],
+  firstSacPayment: ['parcelaSac', 'Primeira parcela SAC'],
   loan: ['credito', 'Financiamento estimado'],
   entry: ['entrada', 'Entrada estimada'],
-  minimumIncome: ['minimumIncome', 'Renda mínima estimada'],
+  minimumIncome: ['minimumIncome', 'Renda mínima estimada · Price'],
+  minimumSacIncome: ['minimumSacIncome', 'Renda mínima estimada · SAC'],
   subsidyApplied: ['subsidyApplied', 'Subsídio usado na simulação'],
   fgtsApplied: ['fgtsApplied', 'FGTS usado na entrada'],
   savingsApplied: ['savingsApplied', 'Reservas próprias usadas na entrada'],
@@ -94,6 +97,7 @@ function render(showError = false) {
     ? 'Informe apenas o FGTS que pode ser usado na compra.'
     : 'Deixe os dois campos em branco para ver a entrada necessária. Informe 0 para simular sem saldo.';
   get('linhaRenda').hidden = byIncome;
+  get('linhaRendaSac').hidden = byIncome;
   get('linhaSubsidio').hidden = !associative;
   get('linhaEntradaPropria').hidden = !associative;
   get('resultado').textContent = byProperty ? 'Valor do imóvel informado' : 'Valor estimado do imóvel';
@@ -120,6 +124,7 @@ function render(showError = false) {
   get('barra').parentElement.hidden = Boolean(invalidId);
   get('legenda').hidden = Boolean(invalidId);
   get('enquadramento').hidden = Boolean(invalidId);
+  get('taxaResultado').hidden = Boolean(invalidId);
   get('reservaAdicional').hidden = true;
 
   if (invalidId) {
@@ -176,7 +181,14 @@ function render(showError = false) {
   const messages = [];
   if (!byIncome && actualIncome !== undefined && Number(result.minimumIncome.toFixed(2)) > actualIncome) {
     const share = decimal.format(result.monthlyPayment / actualIncome * 100);
-    messages.push('A parcela consumiria ' + share + '% da renda informada, acima da premissa escolhida.');
+    messages.push('A parcela Price consumiria ' + share + '% da renda informada, acima da premissa escolhida.');
+  }
+  const sacBudget = mode === 'payment' ? values.alvo : actualIncome === undefined
+    ? undefined : actualIncome * values.comprometimento / 100;
+  if (sacBudget !== undefined && result.firstSacPayment > sacBudget + 0.005) {
+    messages.push(mode === 'payment'
+      ? 'A primeira parcela SAC fica acima da prestação alvo. O valor do imóvel tem Price como base.'
+      : 'A primeira parcela SAC fica acima do percentual de renda escolhido.');
   }
   if (result.priceCapped) {
     messages.push('O valor sugerido considera o limite do imóvel nessa faixa do MCMV.');
@@ -191,11 +203,13 @@ function render(showError = false) {
       : 'Faltam ' + money(result.cashEntry) + ' para cobrir a entrada.');
   }
 
-  const termLabel = 'Price · ' + values.prazo + ' meses · ';
+  const termLabel = values.prazo + ' meses · ';
   const rateLabel = rate.source === 'mcmv'
     ? termLabel + decimal.format(rate.nominal) + '% a.a. nominais · MCMV Faixa ' + rate.band + ' (Sudeste)'
     : termLabel + decimal.format(rate.annualRate) + '% a.a. efetivos' + (rate.source === 'sbpe' ? ' · SBPE CAIXA' : ' · taxa personalizada');
   get('referenciaTaxa').textContent = rateLabel;
+  const appliedRateLabel = 'Taxa usada · ' + rateLabel + ' · ' + monthlyPercent.format(result.monthlyRate * 100) + '% a.m.';
+  get('taxaResultado').textContent = appliedRateLabel;
   get('taxaAjuda').textContent = rate.source === 'mcmv'
     ? (rate.band === 4 ? 'Referência da linha Classe Média.' : (rate.contributor ? 'Cenário com taxa de cotista do FGTS.' : 'Cenário com taxa de não cotista do FGTS.'))
       + ' Condições sujeitas à análise do banco.'
@@ -215,8 +229,8 @@ function render(showError = false) {
   get('legendaFinanciamento').textContent = decimal.format(result.financedPercent) + '% financiamento';
   get('legendaEntrada').textContent = decimal.format(Math.max(0, 100 - result.financedPercent)) + '% entrada';
 
-  const keys = ['property', 'monthlyPayment', 'loan', 'entry'];
-  if (!byIncome) keys.push('minimumIncome');
+  const keys = ['property', 'monthlyPayment', 'firstSacPayment', 'loan', 'entry'];
+  if (!byIncome) keys.push('minimumIncome', 'minimumSacIncome');
   if (associative) keys.push('subsidyApplied', 'cashEntry');
   if (values.fgts !== undefined) keys.push('fgtsApplied');
   if (values.recursosProprios !== undefined) keys.push('savingsApplied');
@@ -225,7 +239,7 @@ function render(showError = false) {
   summary = [
     'Simulador da Casa Própria • Augusto Seixas',
     tabs.find(tab => tab.dataset.mode === mode).textContent,
-    rateLabel,
+    appliedRateLabel,
     ...(actualIncome === undefined ? [] : ['Renda familiar mensal: ' + money(actualIncome)]),
     ...keys.map(key => resultFields[key][1] + ': ' + money(result[key])),
     ...(!associative && hasFunding ? [get('reservaAdicional').textContent] : []),

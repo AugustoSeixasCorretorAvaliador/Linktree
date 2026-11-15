@@ -26,14 +26,15 @@ const HousingEstimate = (() => {
     return NaN;
   }
 
-  function priceFactor(annualRate, months) {
-    if (annualRate === 0) return months;
-    const monthlyLogRate = Math.log1p(annualRate / 100) / 12;
+  function priceFactor(monthlyLogRate, months) {
+    if (monthlyLogRate === 0) return months;
     return -Math.expm1(-monthlyLogRate * months) / Math.expm1(monthlyLogRate);
   }
 
   function estimate({ mode, amount, commitment, annualRate, months, financedShare, feeRate, fgts, savings, subsidy = 0, propertyLimit = Infinity }) {
-    const multiplier = priceFactor(annualRate, months);
+    const monthlyLogRate = Math.log1p(annualRate / 100) / 12;
+    const monthlyRate = Math.expm1(monthlyLogRate);
+    const multiplier = priceFactor(monthlyLogRate, months);
     const share = financedShare / 100;
     const incomeShare = commitment / 100;
     const byProperty = mode === 'property' || mode === 'associative';
@@ -55,6 +56,7 @@ const HousingEstimate = (() => {
       byProperty ? Infinity : loanBudget
     );
     const monthlyPayment = loan / multiplier;
+    const firstSacPayment = loan / months + loan * monthlyRate;
     const entry = property - loan;
     const documentation = property * (feeRate / 100);
     const subsidyApplied = Math.min(entry, subsidy);
@@ -63,7 +65,8 @@ const HousingEstimate = (() => {
     const cashEntry = entry - subsidyApplied - fgtsApplied;
     const unfundedEntry = cashEntry - savingsApplied;
     return {
-      property, monthlyPayment, loan, minimumIncome: monthlyPayment / incomeShare, paymentBudget,
+      property, monthlyPayment, firstSacPayment, monthlyRate, loan, paymentBudget,
+      minimumIncome: monthlyPayment / incomeShare, minimumSacIncome: firstSacPayment / incomeShare,
       entry, documentation, subsidyApplied, fgtsApplied, savingsApplied, cashEntry, unfundedEntry,
       reserve: cashEntry + documentation, additionalCash: unfundedEntry + documentation,
       financedPercent: property ? loan / property * 100 : 0, priceCapped
