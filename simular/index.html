@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f5f6f0">
+  <meta name="description" content="Simule a compra pela renda, pelo valor do imóvel, pela prestação alvo ou pelo crédito associativo.">
+  <title>Simulador da Casa Própria • Augusto Seixas</title>
+  <style>
+    :root{color-scheme:light;--bg:#f5f6f0;--paper:#fff;--ink:#152c25;--muted:#50665e;--line:#dbe3db;--deep:#10382d;--green:#2b6752;--lime:#dcf094;font-family:Inter,"Segoe UI",system-ui,sans-serif}
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--ink);line-height:1.5}
+    a{color:inherit;text-underline-offset:4px}
+    button,input{font:inherit}
+    button{cursor:pointer}
+    :focus-visible{outline:3px solid #4e896f;outline-offset:3px}
+    [hidden]{display:none!important}
+    .wrap{width:min(1120px,calc(100% - 64px));margin-inline:auto}
+    .top{border-bottom:1px solid var(--line)}
+    .top .wrap{min-height:74px;display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .brand{display:flex;align-items:center;gap:11px;font-size:.96rem;font-weight:750}
+    .brand-mark{display:grid;place-items:center;width:36px;height:36px;border-radius:11px;background:var(--deep);color:var(--lime)}
+    .brand-mark svg{width:21px;height:21px}
+    .top a{font-size:.83rem;font-weight:650}
+    .intro{padding:49px 0 29px}
+    h1,h2,p,dl,dd{margin:0}
+    h1{font-size:clamp(2.2rem,5.1vw,4rem);font-weight:780;letter-spacing:-.063em;line-height:1.05}
+    .intro p{margin-top:12px;color:var(--muted);font-size:clamp(.94rem,1.9vw,1.07rem)}
+    .grid{display:grid;grid-template-columns:minmax(0,.97fr) minmax(0,1.03fr);gap:22px;align-items:start}
+    .card{background:var(--paper);border:1px solid var(--line);border-radius:23px;overflow:hidden}
+    .form-card{padding:27px}
+    h2{font-size:1.32rem;line-height:1.2;letter-spacing:-.035em}
+    .lead{margin-top:6px;color:var(--muted);font-size:.88rem}
+    .field{min-width:0}
+    .income{margin-top:22px}
+    label{display:block;font-size:.84rem;font-weight:690;margin-bottom:5px}
+    .control{display:flex;align-items:center;gap:9px;background:#f8faf6;border:1px solid #ccd8cc;border-radius:10px;padding:0 12px;min-height:43px;color:var(--muted);font-size:.87rem}
+    .control:focus-within{outline:2px solid #4e896f;outline-offset:1px}
+    .control input{width:100%;min-width:0;border:0;outline:none;background:transparent;color:var(--ink);padding:9px 0;font-weight:690}
+    input[aria-invalid="true"]{color:#9a2921}
+    .income .control{font-size:1.2rem;min-height:54px;padding-inline:14px}
+    .income input{font-size:1.36rem}
+    .assumptions{border-top:1px solid var(--line);margin-top:20px;padding-top:15px}
+    .assumptions summary,.method summary{cursor:pointer;font-size:.87rem;font-weight:750}
+    .fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 13px;padding-top:13px}
+    .actions{display:flex;align-items:center;gap:14px;margin-top:19px;flex-wrap:wrap}
+    .actions button,.copy{min-height:41px;border-radius:9px;padding:8px 13px;font-size:.82rem;font-weight:730}
+    .primary{color:#fff;background:var(--deep);border:1px solid var(--deep)}
+    .reset{border:0;background:transparent;color:#315847;text-decoration:underline;text-underline-offset:4px}
+    .error{min-height:0;color:#9a2921;font-size:.83rem;margin-top:9px}
+    .results{padding:0}
+    .hero{background:var(--deep);color:white;padding:24px 27px 22px}
+    .hero h2{font-size:.86rem;letter-spacing:.005em;font-weight:570;color:#e1eee3}
+    .hero strong{display:block;margin:3px 0 10px;font-size:clamp(1.82rem,4.15vw,3.55rem);line-height:1.1;letter-spacing:-.062em;color:var(--lime);overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
+    .bar{height:8px;display:flex;gap:3px;border-radius:20px;overflow:hidden;margin-top:16px}
+    .bar span:first-child{background:var(--lime);width:80%}
+    .bar span:last-child{background:#78a890;flex:1}
+    .legend{display:flex;justify-content:space-between;gap:8px;color:#e1eee3;font-size:.74rem;margin-top:8px}
+    .legend span::before{content:"";display:inline-block;width:7px;height:7px;margin-right:6px;border-radius:50%;background:var(--lime);vertical-align:1px}
+    .legend span:last-child::before{background:#78a890}
+    .result-body{padding:8px 27px 19px}
+    .rows>div{display:flex;justify-content:space-between;align-items:baseline;gap:9px;border-bottom:1px solid var(--line);padding:10px 0;font-size:.88rem}
+    .rows dt{color:var(--muted)}
+    dd{font-weight:760;text-align:right;overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
+    .reserve{display:flex;justify-content:space-between;align-items:center;gap:10px;background:#edf4de;border-radius:10px;padding:10px 12px;margin-top:12px;font-size:.9rem;font-weight:750}
+    .reserve small{display:block;color:#43594a;font-size:.72rem;font-weight:500}
+    .copy{border:1px solid #cddbcc;color:var(--deep);background:#fff}
+    .copy:hover,.reset:hover{background:#eef4eb}
+    .primary:hover{background:#245440}
+    .copy-row{display:flex;align-items:center;gap:9px;margin-top:11px;flex-wrap:wrap}
+    .copy-row .status{font-size:.77rem;color:var(--muted)}
+    .copy-text{width:100%;margin-top:8px;min-height:115px}
+    .method{padding:15px 20px;border:1px solid var(--line);border-radius:13px;margin-top:17px;font-size:.86rem;color:var(--muted)}
+    .method summary{color:var(--ink)}
+    .method ol{margin:11px 0;padding-left:1.4rem}
+    .note{margin:13px 0 0;font-size:.79rem;color:var(--muted)}
+    footer{padding:18px 0 22px;font-size:.75rem;color:var(--muted)}
+    .tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;background:#e9eee5;border:1px solid var(--line);padding:5px;border-radius:13px;margin-bottom:18px}
+    .tabs button{background:transparent;color:#315044;border:1px solid transparent;border-radius:8px;padding:9px 7px;min-height:43px;font-size:.86rem;font-weight:700}
+    .tabs button[aria-selected="true"]{background:#fff;border-color:#d0dcce;color:#143b2e;box-shadow:0 1px 3px #132d2114}
+    .context{margin-top:16px}
+    .field-help{margin-top:5px;font-size:.75rem;color:var(--muted)}
+    .qualification{background:#eaf2e9;border-radius:10px;padding:10px 12px;margin-top:12px}
+    .qualification span{font-size:.74rem;color:#425c50}
+    .qualification strong{display:block;font-size:.92rem}
+    .qualification p{font-size:.77rem;margin-top:3px;color:#374f43}
+    .qualification .fit{font-weight:700}
+    .result-actions{display:flex;align-items:center;gap:9px;margin-top:12px;flex-wrap:wrap}
+    .purchase{margin-left:auto;display:inline-flex;align-items:center;min-height:41px;border-radius:9px;padding:8px 13px;background:var(--deep);color:white;font-size:.82rem;font-weight:730;text-decoration:none}
+    .purchase:hover{background:#245440}
+    .copy-row{margin:0}
+    .note+.note{margin-top:7px}
+    @media(max-width:640px){.tabs{grid-template-columns:repeat(2,minmax(0,1fr))}.purchase{margin-left:0}}
+    @media(max-width:760px){.wrap{width:calc(100% - 36px)}.grid{grid-template-columns:1fr;gap:15px}.intro{padding:30px 0 21px}.top .wrap{min-height:62px}.form-card,.hero{padding:21px}.result-body{padding-inline:21px}}
+    @media(max-width:340px){.wrap{width:calc(100% - 26px)}.fields{grid-template-columns:1fr}.legend{flex-wrap:wrap}}
+  </style>
+</head>
+<body>
+  <header class="top">
+    <div class="wrap">
+      <div class="brand">
+        <span class="brand-mark"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="m3 11 9-7 9 7M6 10v10h12V10m-8 10v-6h4v6"/></svg></span>
+        <span>Augusto Seixas</span>
+      </div>
+      <a href="#metodo">Como calculamos</a>
+    </div>
+  </header>
+  <main class="wrap">
+    <div class="intro">
+      <h1>Simulador da casa própria</h1>
+      <p>Descubra quanto pode financiar, o que cabe no seu orçamento e quanto reservar para a compra.</p>
+    </div>
+    <div class="tabs" role="tablist" aria-label="Forma de simulação">
+      <button type="button" role="tab" id="tab-income" aria-selected="true" aria-controls="panel-income" data-mode="income">Por renda</button>
+      <button type="button" role="tab" id="tab-property" aria-selected="false" aria-controls="panel-property" data-mode="property" tabindex="-1">Por valor do imóvel</button>
+      <button type="button" role="tab" id="tab-payment" aria-selected="false" aria-controls="panel-payment" data-mode="payment" tabindex="-1">Por prestação alvo</button>
+      <button type="button" role="tab" id="tab-associative" aria-selected="false" aria-controls="panel-associative" data-mode="associative" tabindex="-1">Associativo sem entrada</button>
+    </div>
+    <div class="grid">
+      <form class="card form-card" id="simulacao" novalidate>
+        <h2>Dados da simulação</h2>
+        <div role="tabpanel" id="panel-income" aria-labelledby="tab-income">
+          <p class="lead">Informe a renda bruta mensal da família para estimar o imóvel que cabe no orçamento.</p>
+          <div class="field income"><label for="renda">Renda familiar mensal</label><div class="control"><span aria-hidden="true">R$</span><input id="renda" inputmode="decimal" value="7.000,00" aria-describedby="erro"></div></div>
+        </div>
+        <div role="tabpanel" id="panel-property" aria-labelledby="tab-property" hidden>
+          <p class="lead">Parta do preço para estimar a parcela, a entrada e a renda necessária.</p>
+          <div class="field income"><label for="preco">Valor do imóvel</label><div class="control"><span aria-hidden="true">R$</span><input id="preco" inputmode="decimal" value="357.000,00" aria-describedby="erro"></div></div>
+        </div>
+        <div role="tabpanel" id="panel-payment" aria-labelledby="tab-payment" hidden>
+          <p class="lead">Parta da prestação que pretende pagar para estimar o preço do imóvel.</p>
+          <div class="field income"><label for="alvo">Prestação mensal alvo</label><div class="control"><span aria-hidden="true">R$</span><input id="alvo" inputmode="decimal" value="2.100,00" aria-describedby="erro"></div></div>
+        </div>
+        <div role="tabpanel" id="panel-associative" aria-labelledby="tab-associative" hidden>
+          <p class="lead">Veja se o FGTS e o subsídio estimado cobrem a entrada de um imóvel na planta.</p>
+          <div class="field income"><label for="precoAssociativo">Valor do imóvel na planta</label><div class="control"><span aria-hidden="true">R$</span><input id="precoAssociativo" inputmode="decimal" value="250.000,00" aria-describedby="erro"></div></div>
+          <div class="fields">
+            <div class="field"><label for="fgts">FGTS disponível para a compra</label><div class="control"><span aria-hidden="true">R$</span><input id="fgts" inputmode="decimal" value="0" aria-describedby="erro"></div></div>
+            <div class="field"><label for="subsidio">Subsídio informado</label><div class="control"><span aria-hidden="true">R$</span><input id="subsidio" inputmode="decimal" value="0" aria-describedby="erro"></div></div>
+          </div>
+          <p class="field-help">Preencha o subsídio conforme a estimativa da instituição. Encargos durante a obra e condições da construtora podem gerar despesas adicionais.</p>
+        </div>
+        <div class="field context" id="rendaInformada" hidden>
+          <label for="rendaReal">Renda familiar mensal (opcional)</label>
+          <div class="control"><span aria-hidden="true">R$</span><input id="rendaReal" inputmode="decimal" placeholder="Informe a renda bruta" aria-describedby="erro rendaAjuda"></div>
+          <p class="field-help" id="rendaAjuda">Compara a parcela com sua renda e refina o enquadramento.</p>
+        </div>
+        <details class="assumptions" open>
+          <summary>Premissas da estimativa</summary>
+          <div class="fields">
+            <div class="field"><label for="comprometimento">Renda para a parcela</label><div class="control"><input id="comprometimento" inputmode="decimal" value="30" aria-describedby="erro"><span aria-hidden="true">%</span></div></div>
+            <div class="field"><label for="fator">Multiplicador da parcela</label><div class="control"><input id="fator" inputmode="decimal" value="136" aria-describedby="erro"><span aria-hidden="true">×</span></div></div>
+            <div class="field"><label for="cota">Percentual financiado</label><div class="control"><input id="cota" inputmode="decimal" value="80" aria-describedby="erro"><span aria-hidden="true">%</span></div></div>
+            <div class="field"><label for="taxa">Custos de documentação</label><div class="control"><input id="taxa" inputmode="decimal" value="5" aria-describedby="erro"><span aria-hidden="true">%</span></div></div>
+            <div class="field"><label for="tetoLocal">Teto municipal nas faixas 1 e 2 (opcional)</label><div class="control"><span aria-hidden="true">R$</span><input id="tetoLocal" inputmode="decimal" placeholder="210.000 a 275.000" aria-describedby="erro tetoAjuda"></div><p class="field-help" id="tetoAjuda">Use o valor oficial do município.</p></div>
+          </div>
+        </details>
+        <p class="error" id="erro" aria-live="polite"></p>
+        <div class="actions">
+          <button class="primary" type="submit">Calcular estimativa</button>
+          <button class="reset" type="reset">Restaurar exemplo</button>
+        </div>
+      </form>
+      <section class="card results" aria-labelledby="resultado">
+        <div class="hero">
+          <h2 id="resultado" tabindex="-1">Valor estimado do imóvel</h2>
+          <strong id="imovel">R$ 357.000,00</strong>
+          <div class="bar" aria-hidden="true"><span id="barra"></span><span id="barraEntrada"></span></div>
+          <div class="legend" id="legenda"><span id="legendaFinanciamento">80% financiamento</span><span id="legendaEntrada">20% entrada</span></div>
+        </div>
+        <div class="result-body">
+          <dl class="rows">
+            <div><dt>Parcela mensal estimada</dt><dd id="parcela">R$ 2.100,00</dd></div>
+            <div><dt>Financiamento estimado</dt><dd id="credito">R$ 285.600,00</dd></div>
+            <div><dt>Entrada estimada</dt><dd id="entrada">R$ 71.400,00</dd></div>
+            <div id="linhaRenda" hidden><dt>Renda mínima estimada</dt><dd id="minimumIncome"></dd></div>
+            <div id="linhaCreditos" hidden><dt>FGTS e subsídio aplicados</dt><dd id="appliedCredits"></dd></div>
+            <div id="linhaEntradaPropria" hidden><dt>Entrada com recursos próprios</dt><dd id="cashEntry"></dd></div>
+            <div><dt>Custos de documentação</dt><dd id="custos">R$ 17.850,00</dd></div>
+          </dl>
+          <dl class="reserve"><dt>Reserva inicial <small id="reservaLegenda">Entrada + documentação</small></dt><dd id="reserva">R$ 89.250,00</dd></dl>
+          <div class="qualification" id="enquadramento">
+            <span>Enquadramento provável</span><strong id="programa"></strong>
+            <p id="programaDetalhe"></p><p class="fit" id="compatibilidade" hidden></p>
+          </div>
+          <div class="result-actions">
+            <div class="copy-row"><button type="button" class="copy" id="copiar">Copiar simulação</button><span class="status" id="status" role="status"></span></div>
+            <a class="purchase" href="https://hero.ia.br/Linktree/">Compre aqui seu imóvel&nbsp; →</a>
+          </div>
+          <textarea class="copy-text" id="texto" aria-label="Resumo da simulação para copiar" readonly hidden></textarea>
+        </div>
+      </section>
+    </div>
+    <details class="method" id="metodo">
+      <summary>Como chegamos a esses valores</summary>
+      <ol>
+        <li><strong>Por renda</strong> · a prestação estimada é a renda vezes o percentual destinado à parcela. A prestação vezes o multiplicador estima o financiamento.</li>
+        <li><strong>Por valor do imóvel</strong> · aplicamos a cota de financiamento sobre o preço e dividimos o financiamento pelo multiplicador para estimar a parcela.</li>
+        <li><strong>Por prestação alvo</strong> · a prestação vezes o multiplicador estima o financiamento. A divisão pela cota indica o valor do imóvel.</li>
+        <li><strong>No associativo</strong> · FGTS e subsídio informados abatem a entrada até o limite necessário. Somamos a entrada com recursos próprios à documentação para estimar a reserva inicial.</li>
+      </ol>
+      <p>O fator 136 vem do exemplo do vídeo de Suzanna Tenório. É uma aproximação para triagem, sem cálculo de prazo, juros, correção, seguros ou CET.</p>
+    </details>
+    <p class="note">A indicação do MCMV urbano usa renda bruta e preço. A cota usada no cálculo é uma premissa editável. No Classe Média, imóveis usados no Sul e Sudeste têm cota máxima de 60%. O banco confirma a análise de crédito, a cota, o FGTS, o subsídio e as condições do imóvel.</p>
+    <p class="note"><a href="https://www.gov.br/cidades/pt-br/acesso-a-informacao/acoes-e-programas/habitacao/programa-minha-casa-minha-vida/mcmv-fgts" target="_blank" rel="noopener noreferrer">Limites oficiais do MCMV</a> · <a href="https://sintse.tse.jus.br/documentos/2026/Abr/6/para-conhecimento-geral/portaria-no-333-de-30-de-marco-de-2026-dispoe-sobre-a-atualizacao-anual-dos-limites-de-renda-bruta" target="_blank" rel="noopener noreferrer">Portaria MCID nº 333/2026</a> · <a href="https://simuladorhabitacao.caixa.gov.br/" target="_blank" rel="noopener noreferrer">Simulador oficial da CAIXA</a></p>
+    <noscript><p class="note">Ative o JavaScript para editar a simulação.</p></noscript>
+  </main>
+  <footer class="wrap">Augusto Seixas · CRECI-RJ 105921</footer>
+  <script src="housing-estimate.js"></script>
+  <script src="simulator.js"></script>
+</body>
+</html>
