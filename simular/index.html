@@ -34,6 +34,9 @@
     .card{background:var(--paper);border:1px solid var(--line);border-radius:23px;overflow:hidden}
     .form-card{padding:27px}
     h2{font-size:1.32rem;line-height:1.2;letter-spacing:-.035em}
+    .associative-title strong{display:block;color:var(--green);font-size:1.22em;margin-top:3px}
+    .rows .cash-entry{background:#edf4de;border:0;border-radius:10px;margin:8px 0;padding-inline:10px}
+    .cash-entry dt{color:var(--deep);font-weight:750}
     .lead{margin-top:6px;color:var(--muted);font-size:.88rem}
     .field{min-width:0}
     .income{margin-top:22px}
@@ -122,11 +125,11 @@
       <button type="button" role="tab" id="tab-income" aria-selected="true" aria-controls="panel-income" data-mode="income">Por renda</button>
       <button type="button" role="tab" id="tab-property" aria-selected="false" aria-controls="panel-property" data-mode="property" tabindex="-1">Por valor do imóvel</button>
       <button type="button" role="tab" id="tab-payment" aria-selected="false" aria-controls="panel-payment" data-mode="payment" tabindex="-1">Por prestação alvo</button>
-      <button type="button" role="tab" id="tab-associative" aria-selected="false" aria-controls="panel-associative" data-mode="associative" tabindex="-1">Associativo sem entrada</button>
+      <button type="button" role="tab" id="tab-associative" aria-selected="false" aria-controls="panel-associative" data-mode="associative" tabindex="-1">Crédito Associativo<br>“SEM ENTRADA”</button>
     </div>
     <div class="grid">
       <form class="card form-card" id="simulacao" novalidate>
-        <h2>Dados da simulação</h2>
+        <h2 id="formTitle">Dados da simulação</h2>
         <div role="tabpanel" id="panel-income" aria-labelledby="tab-income">
           <p class="lead">Informe a renda bruta mensal da família para estimar o imóvel que cabe no orçamento.</p>
           <div class="field income"><label for="renda">Renda familiar mensal</label><div class="control"><span aria-hidden="true">R$</span><input id="renda" inputmode="decimal" value="7.000,00" aria-describedby="erro"></div></div>
@@ -140,25 +143,30 @@
           <div class="field income"><label for="alvo">Prestação mensal alvo</label><div class="control"><span aria-hidden="true">R$</span><input id="alvo" inputmode="decimal" value="2.100,00" aria-describedby="erro"></div></div>
         </div>
         <div role="tabpanel" id="panel-associative" aria-labelledby="tab-associative" hidden>
-          <p class="lead">Veja se o FGTS e o subsídio estimado cobrem a entrada de um imóvel na planta.</p>
-          <div class="field income"><label for="precoAssociativo">Valor do imóvel na planta</label><div class="control"><span aria-hidden="true">R$</span><input id="precoAssociativo" inputmode="decimal" value="250.000,00" aria-describedby="erro"></div></div>
+          <h2 class="associative-title">Crédito Associativo <strong>“SEM ENTRADA”</strong></h2>
+          <p class="lead">Veja como uma família da Faixa 1 do Minha Casa, Minha Vida pode comprar com R$ 0 de entrada. Os campos começam com um exemplo de Niterói (RJ). Edite os valores para simular a sua realidade.</p>
+          <div class="field income"><label for="precoAssociativo">Valor do imóvel na planta</label><div class="control"><span aria-hidden="true">R$</span><input id="precoAssociativo" inputmode="decimal" value="140.000,00" aria-describedby="erro"></div></div>
+          <div class="fields">
+            <div class="field"><label for="rendaAssociativa">Renda familiar bruta mensal</label><div class="control"><span aria-hidden="true">R$</span><input id="rendaAssociativa" inputmode="decimal" value="1.750,00" aria-describedby="erro"></div></div>
+            <div class="field"><label for="fgtsAssociativo">Saldo do FGTS disponível (opcional)</label><div class="control"><span aria-hidden="true">R$</span><input id="fgtsAssociativo" inputmode="decimal" value="0,00" aria-describedby="erro"></div></div>
+          </div>
+          <label class="context"><input id="umaPessoa" type="checkbox"> Família de uma pessoa, sem dependentes</label>
           <div class="qualification">
             <span>Subsídio MCMV estimado</span><strong id="subsidioPrevisto">Até R$ 55.000,00 no RJ</strong>
             <p id="subsidioDetalhe">Informe a renda familiar para calcular. O banco confirma o valor.</p>
           </div>
-          <p class="field-help">Encargos durante a obra e condições da construtora podem gerar despesas adicionais.</p>
+          <p class="field-help">A entrada depende do subsídio, do FGTS e do crédito aprovados. A documentação e possíveis encargos de obra são despesas à parte.</p>
         </div>
         <div class="field context" id="rendaInformada" hidden>
-          <label for="rendaReal" id="rendaRealLabel">Renda familiar mensal (opcional)</label>
+          <label for="rendaReal">Renda familiar mensal (opcional)</label>
           <div class="control"><span aria-hidden="true">R$</span><input id="rendaReal" inputmode="decimal" placeholder="Informe a renda bruta" aria-describedby="erro rendaAjuda"></div>
           <p class="field-help" id="rendaAjuda">Compara a parcela com sua renda e refina o enquadramento.</p>
         </div>
-        <div class="fields context" style="padding-top:0">
-          <div class="field" id="campoReserva"><label for="recursosProprios">Reservas próprias para entrada (opcional)</label><div class="control"><span aria-hidden="true">R$</span><input id="recursosProprios" inputmode="decimal" placeholder="0,00" aria-describedby="erro recursosAjuda"></div></div>
+        <div class="fields context" id="recursosGerais" style="padding-top:0">
+          <div class="field"><label for="recursosProprios">Reservas próprias para entrada (opcional)</label><div class="control"><span aria-hidden="true">R$</span><input id="recursosProprios" inputmode="decimal" placeholder="0,00" aria-describedby="erro recursosAjuda"></div></div>
           <div class="field"><label for="fgts">Saldo do FGTS disponível (opcional)</label><div class="control"><span aria-hidden="true">R$</span><input id="fgts" inputmode="decimal" placeholder="0,00" aria-describedby="erro recursosAjuda"></div></div>
           <p class="field-help" id="recursosAjuda" style="grid-column:1/-1;margin:0">Deixe os dois campos em branco para ver a entrada necessária. Informe 0 para simular sem saldo.</p>
         </div>
-        <label class="context" id="campoPessoa" hidden><input id="umaPessoa" type="checkbox"> Família de uma pessoa, sem dependentes</label>
         <p class="field-help context" id="referenciaTaxa">A taxa é preenchida automaticamente.</p>
         <p class="field-help" id="taxaAjuda"></p>
         <details class="assumptions">
@@ -193,14 +201,14 @@
             <div><dt>Parcela Price</dt><dd id="parcela">—</dd></div>
             <div><dt>Primeira parcela SAC</dt><dd id="parcelaSac">—</dd></div>
             <div><dt>Financiamento estimado</dt><dd id="credito">—</dd></div>
-            <div><dt>Entrada estimada</dt><dd id="entrada">—</dd></div>
+            <div><dt id="entradaLabel">Entrada estimada</dt><dd id="entrada">—</dd></div>
             <div id="linhaRenda" hidden><dt>Renda mínima estimada · Price</dt><dd id="minimumIncome"></dd></div>
             <div id="linhaRendaSac" hidden><dt>Renda mínima estimada · SAC</dt><dd id="minimumSacIncome"></dd></div>
             <div id="linhaSubsidio" hidden><dt>Subsídio usado na simulação</dt><dd id="subsidyApplied"></dd></div>
             <div id="linhaFgts" hidden><dt>FGTS usado na entrada</dt><dd id="fgtsApplied"></dd></div>
             <div id="linhaReservas" hidden><dt>Reservas próprias usadas na entrada</dt><dd id="savingsApplied"></dd></div>
             <div id="linhaFalta" hidden><dt>Quanto falta para a entrada</dt><dd id="unfundedEntry"></dd></div>
-            <div id="linhaEntradaPropria" hidden><dt>Entrada com recursos próprios</dt><dd id="cashEntry"></dd></div>
+            <div class="cash-entry" id="linhaEntradaPropria" hidden><dt>Entrada do seu bolso</dt><dd id="cashEntry"></dd></div>
             <div><dt>Custos de documentação</dt><dd id="custos">—</dd></div>
           </dl>
           <p class="field-help payment-note">Price e SAC usam o mesmo valor financiado, prazo e taxa. As parcelas mostram amortização e juros, sem TR, seguros ou tarifas.</p>
@@ -238,6 +246,6 @@
   </main>
   <footer class="wrap">Augusto Seixas · CRECI-RJ 105921</footer>
   <script src="housing-estimate.js?v=4"></script>
-  <script src="simulator.js?v=4"></script>
+  <script src="simulator.js?v=5"></script>
 </body>
 </html>

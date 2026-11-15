@@ -11,13 +11,17 @@ const decimal = new Intl.NumberFormat('pt-BR', { maximumFractionDigits: 2 });
 const fieldsByMode = {
   income: 'renda', property: 'preco', payment: 'alvo', associative: 'precoAssociativo'
 };
+const optionalIncome = [0.01, 1e7, 'Informe uma renda entre R$ 0,01 e R$ 10 milhões.', true];
+const optionalFgts = [0, 1e9, 'Informe um FGTS entre zero e R$ 1 bilhão.', true];
 const inputRules = {
   renda: [0.01, 1e7, 'Informe uma renda entre R$ 0,01 e R$ 10 milhões.'],
-  rendaReal: [0.01, 1e7, 'Informe uma renda entre R$ 0,01 e R$ 10 milhões.', true],
+  rendaReal: optionalIncome,
+  rendaAssociativa: optionalIncome,
   preco: [0.01, 1e9, 'Informe um valor de imóvel entre R$ 0,01 e R$ 1 bilhão.'],
   precoAssociativo: [0.01, 1e9, 'Informe um valor de imóvel entre R$ 0,01 e R$ 1 bilhão.'],
   alvo: [0.01, 1e7, 'Informe uma prestação entre R$ 0,01 e R$ 10 milhões.'],
-  fgts: [0, 1e9, 'Informe um FGTS entre zero e R$ 1 bilhão.', true],
+  fgts: optionalFgts,
+  fgtsAssociativo: optionalFgts,
   recursosProprios: [0, 1e9, 'Informe reservas próprias entre zero e R$ 1 bilhão.', true],
   comprometimento: [0.01, 100, 'Informe um comprometimento maior que zero e até 100%.'],
   taxaAnual: [0, 100, 'Informe uma taxa efetiva anual entre 0% e 100%.', true],
@@ -38,7 +42,7 @@ const resultFields = {
   fgtsApplied: ['fgtsApplied', 'FGTS usado na entrada'],
   savingsApplied: ['savingsApplied', 'Reservas próprias usadas na entrada'],
   unfundedEntry: ['unfundedEntry', 'Quanto falta para a entrada'],
-  cashEntry: ['cashEntry', 'Entrada com recursos próprios'],
+  cashEntry: ['cashEntry', 'Entrada do seu bolso'],
   documentation: ['custos', 'Custos de documentação'],
   reserve: ['reserva', 'Reserva inicial em dinheiro']
 };
@@ -84,18 +88,17 @@ function render(showError = false) {
   const byIncome = mode === 'income';
   const byProperty = mode === 'property' || associative;
   const primaryId = fieldsByMode[mode];
-  const ids = [primaryId, 'fgts', 'comprometimento', 'taxaAnual', 'prazo', 'cota', 'taxa', 'tetoLocal'];
-  if (!byIncome) ids.push('rendaReal');
+  const incomeId = byIncome ? 'renda' : associative ? 'rendaAssociativa' : 'rendaReal';
+  const fgtsId = associative ? 'fgtsAssociativo' : 'fgts';
+  const ids = [primaryId, fgtsId, 'comprometimento', 'taxaAnual', 'prazo', 'cota', 'taxa', 'tetoLocal'];
+  if (!byIncome) ids.push(incomeId);
   if (!associative) ids.push('recursosProprios');
 
-  get('rendaInformada').hidden = byIncome;
-  get('rendaRealLabel').textContent = associative ? 'Renda familiar mensal para estimar o subsídio' : 'Renda familiar mensal (opcional)';
-  get('rendaAjuda').textContent = associative ? 'Sem renda informada, a simulação considera apenas o FGTS disponível.' : 'Compara a parcela com sua renda e refina o enquadramento.';
-  get('campoReserva').hidden = associative;
-  get('campoPessoa').hidden = !associative;
-  get('recursosAjuda').textContent = associative
-    ? 'Informe apenas o FGTS que pode ser usado na compra.'
-    : 'Deixe os dois campos em branco para ver a entrada necessária. Informe 0 para simular sem saldo.';
+  get('formTitle').hidden = associative;
+  get('rendaInformada').hidden = byIncome || associative;
+  get('recursosGerais').hidden = associative;
+  const entryLabel = associative ? 'Entrada antes de subsídio e FGTS' : resultFields.entry[1];
+  get('entradaLabel').textContent = entryLabel;
   get('linhaRenda').hidden = byIncome;
   get('linhaRendaSac').hidden = byIncome;
   get('linhaSubsidio').hidden = !associative;
@@ -141,7 +144,8 @@ function render(showError = false) {
     return false;
   }
 
-  const actualIncome = byIncome ? values.renda : values.rendaReal;
+  const actualIncome = values[incomeId];
+  const fgts = values[fgtsId];
   const contributor = get('cotista').checked;
   const subsidy = associative ? estimateSubsidy({
     income: actualIncome, property: values[primaryId], localLimit: values.tetoLocal,
@@ -150,7 +154,7 @@ function render(showError = false) {
   const inputs = {
     mode, amount: values[primaryId], commitment: values.comprometimento,
     annualRate: PROGRAM.taxaEfetivaSBPE, months: values.prazo, financedShare: values.cota,
-    feeRate: values.taxa, fgts: values.fgts, savings: values.recursosProprios, subsidy: subsidy.amount
+    feeRate: values.taxa, fgts, savings: values.recursosProprios, subsidy: subsidy.amount
   };
   const baseline = estimate(inputs);
   const rate = rateScenario({
@@ -164,8 +168,8 @@ function render(showError = false) {
   get('subsidioPrevisto').textContent = subsidyLabel;
   get('subsidioDetalhe').textContent = subsidyDetail;
 
-  const hasFunding = values.fgts !== undefined || values.recursosProprios !== undefined;
-  get('linhaFgts').hidden = values.fgts === undefined;
+  const hasFunding = fgts !== undefined || values.recursosProprios !== undefined;
+  get('linhaFgts').hidden = fgts === undefined;
   get('linhaReservas').hidden = values.recursosProprios === undefined;
   get('linhaFalta').hidden = associative || !hasFunding;
   get('reservaLegenda').textContent = associative || hasFunding ? 'Entrada em dinheiro + documentação' : 'Entrada + documentação';
@@ -227,21 +231,21 @@ function render(showError = false) {
   get('barra').hidden = result.financedPercent === 0;
   get('barraEntrada').hidden = result.financedPercent >= 100;
   get('legendaFinanciamento').textContent = decimal.format(result.financedPercent) + '% financiamento';
-  get('legendaEntrada').textContent = decimal.format(Math.max(0, 100 - result.financedPercent)) + '% entrada';
+  get('legendaEntrada').textContent = decimal.format(Math.max(0, 100 - result.financedPercent)) + (associative ? '% cobertos por subsídio, FGTS ou entrada' : '% entrada');
 
   const keys = ['property', 'monthlyPayment', 'firstSacPayment', 'loan', 'entry'];
   if (!byIncome) keys.push('minimumIncome', 'minimumSacIncome');
   if (associative) keys.push('subsidyApplied', 'cashEntry');
-  if (values.fgts !== undefined) keys.push('fgtsApplied');
+  if (fgts !== undefined) keys.push('fgtsApplied');
   if (values.recursosProprios !== undefined) keys.push('savingsApplied');
   if (!associative && hasFunding) keys.push('unfundedEntry');
   keys.push('documentation', 'reserve');
   summary = [
     'Simulador da Casa Própria • Augusto Seixas',
-    tabs.find(tab => tab.dataset.mode === mode).textContent,
+    associative ? 'Crédito Associativo “SEM ENTRADA”' : tabs.find(tab => tab.dataset.mode === mode).textContent,
     appliedRateLabel,
     ...(actualIncome === undefined ? [] : ['Renda familiar mensal: ' + money(actualIncome)]),
-    ...keys.map(key => resultFields[key][1] + ': ' + money(result[key])),
+    ...keys.map(key => (key === 'entry' ? entryLabel : resultFields[key][1]) + ': ' + money(result[key])),
     ...(!associative && hasFunding ? [get('reservaAdicional').textContent] : []),
     ...(associative ? ['Subsídio MCMV: ' + subsidyLabel, subsidyDetail] : []),
     'Enquadramento provável: ' + program,
