@@ -53,7 +53,7 @@
     .hero h2{font-size:.86rem;letter-spacing:.005em;font-weight:570;color:#e1eee3}
     .hero strong{display:block;margin:3px 0 10px;font-size:clamp(1.82rem,4.15vw,3.55rem);line-height:1.1;letter-spacing:-.062em;color:var(--lime);overflow-wrap:anywhere;font-variant-numeric:tabular-nums}
     .bar{height:8px;display:flex;gap:3px;border-radius:20px;overflow:hidden;margin-top:16px}
-    .bar span:first-child{background:var(--lime);width:80%}
+    .bar span:first-child{background:var(--lime);width:70%}
     .bar span:last-child{background:#78a890;flex:1}
     .legend{display:flex;justify-content:space-between;gap:8px;color:#e1eee3;font-size:.74rem;margin-top:8px}
     .legend span::before{content:"";display:inline-block;width:7px;height:7px;margin-right:6px;border-radius:50%;background:var(--lime);vertical-align:1px}
@@ -134,26 +134,37 @@
         <div role="tabpanel" id="panel-associative" aria-labelledby="tab-associative" hidden>
           <p class="lead">Veja se o FGTS e o subsídio estimado cobrem a entrada de um imóvel na planta.</p>
           <div class="field income"><label for="precoAssociativo">Valor do imóvel na planta</label><div class="control"><span aria-hidden="true">R$</span><input id="precoAssociativo" inputmode="decimal" value="250.000,00" aria-describedby="erro"></div></div>
-          <div class="fields">
-            <div class="field"><label for="fgts">FGTS disponível para a compra</label><div class="control"><span aria-hidden="true">R$</span><input id="fgts" inputmode="decimal" value="0" aria-describedby="erro"></div></div>
-            <div class="field"><label for="subsidio">Subsídio informado</label><div class="control"><span aria-hidden="true">R$</span><input id="subsidio" inputmode="decimal" value="0" aria-describedby="erro"></div></div>
+          <div class="qualification">
+            <span>Subsídio MCMV estimado</span><strong id="subsidioPrevisto">Até R$ 55.000,00 no RJ</strong>
+            <p id="subsidioDetalhe">Informe a renda familiar para calcular. O banco confirma o valor.</p>
           </div>
-          <p class="field-help">Preencha o subsídio conforme a estimativa da instituição. Encargos durante a obra e condições da construtora podem gerar despesas adicionais.</p>
+          <p class="field-help">Encargos durante a obra e condições da construtora podem gerar despesas adicionais.</p>
         </div>
         <div class="field context" id="rendaInformada" hidden>
-          <label for="rendaReal">Renda familiar mensal (opcional)</label>
+          <label for="rendaReal" id="rendaRealLabel">Renda familiar mensal (opcional)</label>
           <div class="control"><span aria-hidden="true">R$</span><input id="rendaReal" inputmode="decimal" placeholder="Informe a renda bruta" aria-describedby="erro rendaAjuda"></div>
           <p class="field-help" id="rendaAjuda">Compara a parcela com sua renda e refina o enquadramento.</p>
         </div>
-        <details class="assumptions" open>
+        <div class="fields context" style="padding-top:0">
+          <div class="field" id="campoReserva"><label for="recursosProprios">Reservas próprias para entrada (opcional)</label><div class="control"><span aria-hidden="true">R$</span><input id="recursosProprios" inputmode="decimal" placeholder="0,00" aria-describedby="erro recursosAjuda"></div></div>
+          <div class="field"><label for="fgts">Saldo do FGTS disponível (opcional)</label><div class="control"><span aria-hidden="true">R$</span><input id="fgts" inputmode="decimal" placeholder="0,00" aria-describedby="erro recursosAjuda"></div></div>
+          <p class="field-help" id="recursosAjuda" style="grid-column:1/-1;margin:0">Deixe os dois campos em branco para ver a entrada necessária. Informe 0 para simular sem saldo.</p>
+        </div>
+        <label class="context" id="campoPessoa" hidden><input id="umaPessoa" type="checkbox"> Família de uma pessoa, sem dependentes</label>
+        <p class="field-help context" id="referenciaTaxa">A taxa é preenchida automaticamente.</p>
+        <p class="field-help" id="taxaAjuda"></p>
+        <details class="assumptions">
           <summary>Premissas da estimativa</summary>
           <div class="fields">
             <div class="field"><label for="comprometimento">Renda para a parcela</label><div class="control"><input id="comprometimento" inputmode="decimal" value="30" aria-describedby="erro"><span aria-hidden="true">%</span></div></div>
-            <div class="field"><label for="fator">Multiplicador da parcela</label><div class="control"><input id="fator" inputmode="decimal" value="136" aria-describedby="erro"><span aria-hidden="true">×</span></div></div>
-            <div class="field"><label for="cota">Percentual financiado</label><div class="control"><input id="cota" inputmode="decimal" value="80" aria-describedby="erro"><span aria-hidden="true">%</span></div></div>
+            <div class="field"><label for="taxaAnual">Outra taxa efetiva anual (opcional)</label><div class="control"><input id="taxaAnual" inputmode="decimal" placeholder="Automática" aria-describedby="erro"><span aria-hidden="true">% a.a.</span></div></div>
+            <div class="field"><label for="prazo">Prazo</label><div class="control"><input id="prazo" inputmode="numeric" value="420" aria-describedby="erro"><span aria-hidden="true">meses</span></div></div>
+            <div class="field"><label for="cota">Cota máxima financiada</label><div class="control"><input id="cota" inputmode="decimal" value="70" aria-describedby="erro"><span aria-hidden="true">%</span></div></div>
             <div class="field"><label for="taxa">Custos de documentação</label><div class="control"><input id="taxa" inputmode="decimal" value="5" aria-describedby="erro"><span aria-hidden="true">%</span></div></div>
             <div class="field"><label for="tetoLocal">Teto municipal nas faixas 1 e 2 (opcional)</label><div class="control"><span aria-hidden="true">R$</span><input id="tetoLocal" inputmode="decimal" placeholder="210.000 a 275.000" aria-describedby="erro tetoAjuda"></div><p class="field-help" id="tetoAjuda">Use o valor oficial do município.</p></div>
           </div>
+          <label class="context"><input type="checkbox" id="cotista" checked> Simular taxa MCMV para cotista do FGTS</label>
+          <p class="field-help">Desmarque para simular como não cotista. A condição depende das regras do FGTS e da análise do banco.</p>
         </details>
         <p class="error" id="erro" aria-live="polite"></p>
         <div class="actions">
@@ -164,21 +175,25 @@
       <section class="card results" aria-labelledby="resultado">
         <div class="hero">
           <h2 id="resultado" tabindex="-1">Valor estimado do imóvel</h2>
-          <strong id="imovel">R$ 357.000,00</strong>
+          <strong id="imovel">—</strong>
           <div class="bar" aria-hidden="true"><span id="barra"></span><span id="barraEntrada"></span></div>
-          <div class="legend" id="legenda"><span id="legendaFinanciamento">80% financiamento</span><span id="legendaEntrada">20% entrada</span></div>
+          <div class="legend" id="legenda"><span id="legendaFinanciamento">70% financiamento</span><span id="legendaEntrada">30% entrada</span></div>
         </div>
         <div class="result-body">
           <dl class="rows">
-            <div><dt>Parcela mensal estimada</dt><dd id="parcela">R$ 2.100,00</dd></div>
-            <div><dt>Financiamento estimado</dt><dd id="credito">R$ 285.600,00</dd></div>
-            <div><dt>Entrada estimada</dt><dd id="entrada">R$ 71.400,00</dd></div>
+            <div><dt>Parcela mensal estimada</dt><dd id="parcela">—</dd></div>
+            <div><dt>Financiamento estimado</dt><dd id="credito">—</dd></div>
+            <div><dt>Entrada estimada</dt><dd id="entrada">—</dd></div>
             <div id="linhaRenda" hidden><dt>Renda mínima estimada</dt><dd id="minimumIncome"></dd></div>
-            <div id="linhaCreditos" hidden><dt>FGTS e subsídio aplicados</dt><dd id="appliedCredits"></dd></div>
+            <div id="linhaSubsidio" hidden><dt>Subsídio usado na simulação</dt><dd id="subsidyApplied"></dd></div>
+            <div id="linhaFgts" hidden><dt>FGTS usado na entrada</dt><dd id="fgtsApplied"></dd></div>
+            <div id="linhaReservas" hidden><dt>Reservas próprias usadas na entrada</dt><dd id="savingsApplied"></dd></div>
+            <div id="linhaFalta" hidden><dt>Quanto falta para a entrada</dt><dd id="unfundedEntry"></dd></div>
             <div id="linhaEntradaPropria" hidden><dt>Entrada com recursos próprios</dt><dd id="cashEntry"></dd></div>
-            <div><dt>Custos de documentação</dt><dd id="custos">R$ 17.850,00</dd></div>
+            <div><dt>Custos de documentação</dt><dd id="custos">—</dd></div>
           </dl>
-          <dl class="reserve"><dt>Reserva inicial <small id="reservaLegenda">Entrada + documentação</small></dt><dd id="reserva">R$ 89.250,00</dd></dl>
+          <dl class="reserve"><dt>Reserva inicial <small id="reservaLegenda">Entrada + documentação</small></dt><dd id="reserva">—</dd></dl>
+          <p class="field-help" id="reservaAdicional" hidden></p>
           <div class="qualification" id="enquadramento">
             <span>Enquadramento provável</span><strong id="programa"></strong>
             <p id="programaDetalhe"></p><p class="fit" id="compatibilidade" hidden></p>
@@ -191,22 +206,26 @@
         </div>
       </section>
     </div>
+    <aside class="method" aria-label="Juros do financiamento">
+      <h2>Seu financiamento pode ter juros menores que a Selic</h2>
+      <p class="lead">A Selic é a taxa básica da economia. No Minha Casa, Minha Vida, os juros variam conforme a renda, a região e a condição de cotista do FGTS. Na Faixa 1, partem de 4% nominais ao ano para cotistas no Norte e Nordeste e de 4,25% no Sudeste, incluindo o RJ.</p>
+    </aside>
     <details class="method" id="metodo">
       <summary>Como chegamos a esses valores</summary>
       <ol>
-        <li><strong>Por renda</strong> · a prestação estimada é a renda vezes o percentual destinado à parcela. A prestação vezes o multiplicador estima o financiamento.</li>
-        <li><strong>Por valor do imóvel</strong> · aplicamos a cota de financiamento sobre o preço e dividimos o financiamento pelo multiplicador para estimar a parcela.</li>
-        <li><strong>Por prestação alvo</strong> · a prestação vezes o multiplicador estima o financiamento. A divisão pela cota indica o valor do imóvel.</li>
-        <li><strong>No associativo</strong> · FGTS e subsídio informados abatem a entrada até o limite necessário. Somamos a entrada com recursos próprios à documentação para estimar a reserva inicial.</li>
+        <li><strong>Por renda ou prestação alvo</strong> · a tabela Price converte a parcela em capacidade de crédito. Se você informa a entrada disponível, o preço estimado respeita também a cota máxima do imóvel.</li>
+        <li><strong>Por valor do imóvel</strong> · o FGTS e as reservas reduzem o financiamento necessário. Se a entrada disponível ficar abaixo da exigida, mostramos a diferença.</li>
+        <li><strong>No associativo</strong> · o subsídio estimado e o FGTS abatem a entrada até o valor necessário. A documentação aparece em separado.</li>
       </ol>
-      <p>O fator 136 vem do exemplo do vídeo de Suzanna Tenório. É uma aproximação para triagem, sem cálculo de prazo, juros, correção, seguros ou CET.</p>
+      <p>O subsídio usa o art. 53 da IN MCID nº 48/2022 em um cenário de Niterói (RJ), com apartamento novo de 50 m², juros de referência do FGTS pela renda e condição de cotista e teto municipal de referência de R$ 275 mil quando em branco. A estimativa depende da renda informada. Para outras cidades ou empreendimentos, confirme com o agente financeiro.</p>
+      <p class="field-help">A parcela Price usa a taxa anual efetiva convertida em mensal. O cálculo exclui TR, seguros, tarifas e CET.</p>
     </details>
-    <p class="note">A indicação do MCMV urbano usa renda bruta e preço. A cota usada no cálculo é uma premissa editável. No Classe Média, imóveis usados no Sul e Sudeste têm cota máxima de 60%. O banco confirma a análise de crédito, a cota, o FGTS, o subsídio e as condições do imóvel.</p>
-    <p class="note"><a href="https://www.gov.br/cidades/pt-br/acesso-a-informacao/acoes-e-programas/habitacao/programa-minha-casa-minha-vida/mcmv-fgts" target="_blank" rel="noopener noreferrer">Limites oficiais do MCMV</a> · <a href="https://sintse.tse.jus.br/documentos/2026/Abr/6/para-conhecimento-geral/portaria-no-333-de-30-de-marco-de-2026-dispoe-sobre-a-atualizacao-anual-dos-limites-de-renda-bruta" target="_blank" rel="noopener noreferrer">Portaria MCID nº 333/2026</a> · <a href="https://simuladorhabitacao.caixa.gov.br/" target="_blank" rel="noopener noreferrer">Simulador oficial da CAIXA</a></p>
+    <p class="note">A indicação do MCMV urbano usa renda bruta e preço. A cota inicial editável de 70% toma como referência o SBPE Price da CAIXA. As taxas automáticas do MCMV têm como referência o Sudeste. No Classe Média, imóveis usados no Sul e Sudeste têm cota máxima de 60%. O banco confirma a análise de crédito, a cota, o FGTS, o subsídio e as condições do imóvel.</p>
+    <p class="note"><a href="https://www.gov.br/cidades/pt-br/acesso-a-informacao/acoes-e-programas/habitacao/programa-minha-casa-minha-vida/mcmv-fgts" target="_blank" rel="noopener noreferrer">Limites oficiais do MCMV</a> · <a href="https://sintse.tse.jus.br/documentos/2026/Abr/6/para-conhecimento-geral/portaria-no-333-de-30-de-marco-de-2026-dispoe-sobre-a-atualizacao-anual-dos-limites-de-renda-bruta" target="_blank" rel="noopener noreferrer">Portaria MCID nº 333/2026</a> · <a href="https://www.gov.br/cidades/pt-br/acesso-a-informacao/institucional/base-juridica/instrucoes-normativas/ate-2022/IN_48_de_19.12.22__compilada_em_09.04.2026_.pdf" target="_blank" rel="noopener noreferrer">Regra do subsídio</a> · <a href="https://caixanoticias.caixa.gov.br/Paginas/Not%C3%ADcias/2025/12-DEZEMBRO/CAIXA-volta-a-permitir-mais-de-um-financiamento--imobiliario-pelo-SBPE.aspx" target="_blank" rel="noopener noreferrer">Taxa SBPE anunciada pela CAIXA</a> · <a href="https://simuladorhabitacao.caixa.gov.br/" target="_blank" rel="noopener noreferrer">Simulador oficial da CAIXA</a></p>
     <noscript><p class="note">Ative o JavaScript para editar a simulação.</p></noscript>
   </main>
   <footer class="wrap">Augusto Seixas · CRECI-RJ 105921</footer>
-  <script src="housing-estimate.js"></script>
-  <script src="simulator.js"></script>
+  <script src="housing-estimate.js?v=3"></script>
+  <script src="simulator.js?v=3"></script>
 </body>
 </html>
